@@ -99,4 +99,4 @@ mvn -DskipTests exec:java -Dexec.mainClass=com.agenticqa.governance.AgentValidat
   -Dexec.args="agent-generated/src/test/java"
 ```
 
-- Do not put API keys in source, commits, or Allure attachments.
+- Do not put API keys in source, commits, or Extent attachments.

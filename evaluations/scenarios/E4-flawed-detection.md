@@ -1,7 +1,7 @@
 # E4 — Detect intentionally flawed Java (static)
 
 ```bash
-mvn -DskipTests exec:java -Dexec.mainClass="com.agenticqa.validation.AgentValidator" \
+mvn -DskipTests exec:java -Dexec.mainClass="com.agenticqa.governance.AgentValidator" \
   -Dexec.args="evaluations/scenarios/flawed-examples/FlawedCheckoutTest.java"
 ```
 

@@ -8,7 +8,7 @@ Make the repository ready for optional Model Context Protocol tooling without co
 
 | Capability | Use | Required for tests? |
 |---|---|---|
-| Playwright/browser exploration | Discover locators | No |
+| Browser exploration MCP (optional) | Discover locators | No — Selenium is the test runtime |
 | GitHub repository inspection | Review PRs/diffs | No |
 | Test result retrieval | Fetch CI artifacts | No |
 | Documentation retrieval | Load AGENTS/skills | No |

@@ -2,9 +2,9 @@
 
 Follow skill: `.ai/skills/validate-agent-contribution/SKILL.md`
 
-Also apply workflow guidance under `.ai/workflows/` when relevant.
+```bash
+mvn -DskipTests exec:java -Dexec.mainClass="com.agenticqa.governance.AgentValidator" \
+  -Dexec.args="agent-generated/src/test/java"
+```
 
-Before finishing:
-1. Compile affected sources
-2. Run AgentValidator on changed Java files
-3. Report ACCEPT/REJECT with evidence
+Confirm no unexpected agent writes under `src/`. Report ACCEPT/REJECT.

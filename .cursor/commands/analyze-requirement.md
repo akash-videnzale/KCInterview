@@ -2,9 +2,7 @@
 
 Follow skill: `.ai/skills/requirement-analysis/SKILL.md`
 
-Also apply workflow guidance under `.ai/workflows/` when relevant.
-
-Before finishing:
-1. Compile affected sources
-2. Run AgentValidator on changed Java files
-3. Report ACCEPT/REJECT with evidence
+1. Read `docs/requirements/AUTOMATION_REQUIREMENTS.md`
+2. Print current inventory from `.ai/knowledge/automation-inventory.md`
+3. Output prioritized gap cases only (P0/P1/P2)
+4. Prefer full chain: `.ai/skills/agentic-delivery-chain/SKILL.md`

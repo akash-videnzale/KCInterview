@@ -18,7 +18,7 @@ This log records **actual** AI assistance used while building this repository. E
 | Anthropic (`claude-haiku-4-5`) | Test case review (verified with project key) |
 | DeepSeek (`deepseek-flash`) | Report analysis provider (configured) |
 | Live HTTP inspection (`curl`) | Verify Automation Exercise APIs + LLM provider models |
-| Maven / TestNG / Playwright | Compile and execute verification |
+| Maven / TestNG / Selenium | Compile and execute verification |
 
 ## Evidence log
 

@@ -5,7 +5,9 @@ alwaysApply: true
 ---
 
 # Agent Governance
-- AI agents are empowered but not trusted: run AgentValidator before completion.
+- AI agents are empowered but not trusted: run `com.agenticqa.governance.AgentValidator` before completion.
+- Write drafts only under `agent-generated/`; promote to `src/` only when asked.
 - QA Reviewer is review-only by default — no silent edits.
 - Forbidden in tests: hardcoded secrets/URLs, fixed waits, direct browser/HTTP bootstrap.
 - Runtime tests must never call LLM APIs.
+- Always consult `.ai/knowledge/automation-inventory.md` before creating tests.

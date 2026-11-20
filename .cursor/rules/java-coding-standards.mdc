@@ -5,6 +5,8 @@ alwaysApply: false
 ---
 
 # Java Standards
-- Java 21, meaningful names, prefer records for immutable data.
+- Java 21, meaningful names.
+- Immutable **input** data may use records (`RegistrationData`); API **response** bodies use POJOs with getters/setters.
 - Composition over inheritance; keep base classes lightweight.
 - No empty catch blocks; no swallowed assertions.
+- Agent drafts belong under `agent-generated/`, not `src/`.

@@ -1,8 +1,11 @@
 # New Page Object Workflow
-1. Inspect application DOM (prefer data-qa)
-2. Identify elements and user actions
-3. Evaluate locator stability
-4. Check existing components
-5. Implement page object under `com.agenticqa.ui.pages`
-6. Compile
-7. Validate with AgentValidator / review
+
+1. Inspect AUT DOM (prefer `data-qa`) — see recon + `selector-strategy.md`
+2. Check inventory / existing pages under `com.agenticqa.ui.pages` first
+3. Identify elements and user actions
+4. Reuse `HeaderComponent` / `FooterComponent` / product components when possible
+5. Implement draft under **`agent-generated/src/main/java/com/agenticqa/ui/pages/`**
+6. Put visible English in `UiMessages`; assertions stay in `UiAssertions`
+7. Validate / review; promote into `src/main/java/...` only when asked
+
+Skill: `.ai/skills/create-page-object/SKILL.md`

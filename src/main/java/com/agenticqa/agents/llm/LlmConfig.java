@@ -46,7 +46,7 @@ public final class LlmConfig {
 
     public String openAiModel() {
         String model = get("OPENAI_MODEL");
-        return model.isBlank() ? "gpt-4o-mini" : model;
+        return model.isBlank() ? "gpt-5.4-nano" : model;
     }
 
     public String anthropicKey() {
@@ -55,7 +55,7 @@ public final class LlmConfig {
 
     public String anthropicModel() {
         String model = get("ANTHROPIC_MODEL");
-        return model.isBlank() ? "claude-sonnet-4-20250514" : model;
+        return model.isBlank() ? "claude-haiku-4-5" : model;
     }
 
     public String deepSeekKey() {
@@ -64,7 +64,7 @@ public final class LlmConfig {
 
     public String deepSeekModel() {
         String model = get("DEEPSEEK_MODEL");
-        return model.isBlank() ? "deepseek-chat" : model;
+        return model.isBlank() ? "deepseek-flash" : model;
     }
 
     public String deepSeekBaseUrl() {

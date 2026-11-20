@@ -5,7 +5,7 @@
 1. **Context:** The written brief lists Playwright + TypeScript as the default stack. For this submission we needed a Java/Selenium WebDriver framework.
 2. **Chosen approach:** Java 21 + Selenium 4 WebDriver + TestNG + REST Assured + Maven.
 3. **Rejected alternatives:** Playwright TypeScript; Playwright Java; mixed TS+Java repos.
-4. **Reasoning:** Confirmed with **Vivek** (assignment owner) that **Selenium Java is acceptable** for Part 1. Java + Selenium is the stack we can operate and extend confidently in the live Part 2 review. TestNG groups/suites fit UI+API depth-over-breadth delivery.
+4. **Reasoning:** Confirmed with **Vivek** (assignment owner) that **Selenium Java is acceptable**. Java + Selenium is the stack we can operate and extend confidently in the live Part 2 review. TestNG groups/suites fit UI+API depth-over-breadth delivery.
 5. **Trade-offs:** Less built-in auto-wait/tracing than Playwright; agent examples online skew toward TS/Playwright, so we invested in `.ai/skills` and validators tailored to Selenium/TestNG.
 6. **Would change if:** Vivek/reviewers required Playwright TypeScript as a hard gate, or Part 2 mandated a TS-only extension surface.
 
@@ -21,9 +21,9 @@
 ## ADR-003: TestNG Assert / SoftAssert only (no AssertJ/Hamcrest/JUnit)
 
 1. **Context:** Assertion and runner consistency for agent-generated tests.
-2. **Chosen approach:** TestNG as sole runner; `Assert` + `SoftAssert` only (`assertAll()` required for soft checks).
+2. **Chosen approach:** TestNG as sole runner; `Assert` + `SoftAssert` only (`assertAll()` required for soft checks), wrapped by reusable `UiAssertions` / `ApiResponseAssertions` / `ProductAssertions` so tests stay thin.
 3. **Rejected alternatives:** JUnit 5; AssertJ; Hamcrest.
-4. **Reasoning:** One assertion style reduces agent drift; SoftAssert fits multi-field UI/API payload checks.
+4. **Reasoning:** One assertion style reduces agent drift; helpers keep hardcoded failure copy out of test classes.
 5. **Trade-offs:** Less fluent assertion DSL.
 6. **Would change if:** SoftAssert proved insufficient for complex collection assertions and the constraint was lifted.
 

@@ -21,8 +21,6 @@ Test name; optional run flags (`HEADLESS`, groups).
 | Screenshots / text | `target/artifacts/` |
 | Console logs | Surefire / Logback output |
 
-(Allure is not the primary reporter in this framework — use Extent.)
-
 ## Workflow
 1. Read assertion message + stack
 2. Open failure screenshot / attached text if UI

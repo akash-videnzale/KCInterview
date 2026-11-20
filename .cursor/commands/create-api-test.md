@@ -2,9 +2,7 @@
 
 Follow skill: `.ai/skills/create-api-test/SKILL.md`
 
-Also apply workflow guidance under `.ai/workflows/` when relevant.
-
-Before finishing:
-1. Compile affected sources
-2. Run AgentValidator on changed Java files
-3. Report ACCEPT/REJECT with evidence
+1. Print inventory from `.ai/knowledge/automation-inventory.md`
+2. Write drafts under **`agent-generated/src/...` only**
+3. Run AgentValidator on `agent-generated/src/test/java`
+4. Report ACCEPT/REJECT with evidence
