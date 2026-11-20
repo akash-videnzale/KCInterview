@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to run — Agentic QA Automation Framework</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --ink: #1a1a1a;
+      --muted: #5c5c5c;
+      --card: #ffffff;
+      --line: #e2dcd3;
+      --accent: #0b6e4f;
+      --accent-soft: #e6f3ee;
+      --code-bg: #1e2430;
+      --code-ink: #e8eef7;
+      --warn: #8a5a00;
+      --warn-bg: #fff6e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f0ea 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #f0e8df 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    header {
+      padding: 2.5rem 1.25rem 1.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    header h1 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.75rem, 3vw, 2.35rem);
+      letter-spacing: -0.02em;
+    }
+    header p { margin: 0; color: var(--muted); max-width: 40rem; }
+    nav {
+      max-width: 920px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid #c7e2d6;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto 3rem;
+      padding: 0 1.25rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem 1.35rem 1.4rem;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+    }
+    section h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.5rem;
+    }
+    section h3 {
+      margin: 1.1rem 0 0.45rem;
+      font-size: 1.02rem;
+    }
+    p, li { color: var(--ink); }
+    .muted { color: var(--muted); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 0.6rem 0 0.2rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f3efe9; }
+    pre {
+      margin: 0.5rem 0 0;
+      padding: 0.85rem 1rem;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+    }
+    p code, li code, td code {
+      background: #f0ebe4;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    .callout {
+      background: var(--warn-bg);
+      border: 1px solid #f0d9a8;
+      color: var(--warn);
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+      margin: 0.75rem 0 0;
+      font-size: 0.95rem;
+    }
+    .path {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    footer {
+      max-width: 920px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.25rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>How to run this framework</h1>
+    <p>
+      Agentic QA Automation Framework — Automation Exercise.
+      Stack: Java 21 · Selenium · TestNG · REST Assured · Extent Reports.
+      Markdown twin: <code>HOW_TO_RUN.md</code> at the repo root.
+    </p>
+  </header>
+
+  <nav>
+    <a href="#setup">Setup</a>
+    <a href="#mvn">mvn test</a>
+    <a href="#report">Reports</a>
+    <a href="#skills">Skills &amp; coding agents</a>
+    <a href="#llm">LLM AgentCli</a>
+    <a href="#validators">Validators</a>
+    <a href="#expect">What to expect</a>
+  </nav>
+
+  <main>
+    <section id="setup">
+      <h2>0. One-time setup</h2>
+      <pre><code>cd agentic-qa-automation-framework
+cp .env.example .env
+mvn -DskipTests dependency:resolve
+mvn -DskipTests compile test-compile</code></pre>
+      <p class="muted">Need JDK 21+, Maven 3.9+, and Chrome (or Firefox/Edge). LLM keys in <code>.env</code> are only for optional <code>AgentCli</code>.</p>
+      <div class="callout">Default mode: <strong>single-threaded</strong> + <strong>headed</strong> browser (you will see Chrome). Override with <code>-DHEADLESS=true</code> / <code>-DPARALLEL=true</code>.</div>
+    </section>
+
+    <section id="mvn">
+      <h2>1. Run tests with Maven</h2>
+
+      <h3>Full suite</h3>
+      <pre><code>mvn test</code></pre>
+
+      <h3>By TestNG group</h3>
+      <pre><code>mvn test -Dgroups=smoke
+mvn test -Dgroups=ui
+mvn test -Dgroups=api
+mvn test -Dgroups=integration
+mvn test -Dgroups=unit
+mvn test -Dgroups=regression</code></pre>
+
+      <h3>Headless / parallel</h3>
+      <pre><code>mvn test -DHEADLESS=true
+mvn test -DPARALLEL=true
+mvn test -DPARALLEL=true -DTHREAD_COUNT=4 -DHEADLESS=true</code></pre>
+
+      <h3>Single class / method</h3>
+      <pre><code>mvn test -Dtest=SignupUiTest
+mvn test -Dtest=ProductListApiTest#shouldReturnProductCatalogue
+mvn test -Dtest=CheckoutUiTest -DHEADLESS=true</code></pre>
+    </section>
+
+    <section id="report">
+      <h2>2. Where to see the report</h2>
+      <p>Primary report is <strong>Extent HTML</strong> (generated after <code>mvn test</code>):</p>
+      <p class="path">target/extent-report/index.html</p>
+      <pre><code>scripts/extent-report/open.sh
+# or
+open target/extent-report/index.html</code></pre>
+
+      <table>
+        <thead>
+          <tr><th>Artifact</th><th>Location</th><th>When</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Extent report</td>
+            <td><code>target/extent-report/index.html</code></td>
+            <td>After any <code>mvn test</code></td>
+          </tr>
+          <tr>
+            <td>Screenshots / failure text</td>
+            <td><code>target/artifacts/</code></td>
+            <td>UI failures</td>
+          </tr>
+          <tr>
+            <td>JaCoCo coverage</td>
+            <td><code>target/site/jacoco/index.html</code></td>
+            <td>After <code>mvn verify</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">In Extent you will see test names, steps, API request/response attachments (secrets redacted), and screenshots when UI tests fail.</p>
+    </section>
+
+    <section id="skills">
+      <h2>3. Coding agents &amp; skills (Cursor / Claude / Copilot)</h2>
+      <p>Skills and agent role files guide the <strong>IDE agent</strong>. They do <strong>not</strong> call OpenAI / Claude / DeepSeek APIs by themselves.</p>
+
+      <h3>How to run</h3>
+      <ol>
+        <li>Open the repo in Cursor (or Claude Code / Copilot Chat).</li>
+        <li>Ask the agent to follow a skill or role, for example:
+          <ul>
+            <li>“Follow <code>.ai/skills/agentic-delivery-chain/SKILL.md</code> for Contact Us”</li>
+            <li>“Act as <code>.ai/agents/agentic-delivery-orchestrator.md</code>”</li>
+          </ul>
+        </li>
+        <li>Or use Cursor commands: <code>/analyze-requirement</code>, <code>/create-ui-test</code>, <code>/create-api-test</code>, <code>/validate-contribution</code>.</li>
+      </ol>
+
+      <h3>What to expect</h3>
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>You should see</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Start</td><td>Printed <strong>automation inventory</strong> (existing UI/API tests + data)</td></tr>
+          <tr><td>Analysis</td><td>COVERED vs GAP + prioritized cases (P0 / P1 / P2)</td></tr>
+          <tr><td>Automation</td><td>New files only under <code>agent-generated/</code> — <strong>not</strong> mixed into <code>src/</code></td></tr>
+          <tr><td>Validate</td><td>AgentValidator on <code>agent-generated/src/test/java</code></td></tr>
+          <tr><td>Promote</td><td>Only if you explicitly ask — then drafts move into framework <code>src/</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Important paths</h3>
+      <table>
+        <tbody>
+          <tr><td>Skills</td><td><code>.ai/skills/*/SKILL.md</code></td></tr>
+          <tr><td>Agent roles</td><td><code>.ai/agents/*.md</code></td></tr>
+          <tr><td>Orchestrator</td><td><code>.ai/agents/agentic-delivery-orchestrator.md</code></td></tr>
+          <tr><td>Chain workflow</td><td><code>.ai/workflows/agentic-delivery-chain.md</code></td></tr>
+          <tr><td>Draft sandbox</td><td><code>agent-generated/</code></td></tr>
+          <tr><td>Inventory</td><td><code>.ai/knowledge/automation-inventory.md</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="llm">
+      <h2>4. Runtime LLM agents (<code>AgentCli</code>)</h2>
+      <p>Optional pipeline that calls paid APIs. Keys live in local <code>.env</code> only. This is <strong>not</strong> required for <code>mvn test</code>.</p>
+
+      <h3>Cheapest verified models (cost-first — see DECISIONS ADR-006)</h3>
+      <table>
+        <thead>
+          <tr><th>Role</th><th>Provider</th><th>Model</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Requirement + test-case generation</td><td>OpenAI (GPT)</td><td><code>gpt-5.4-nano</code></td></tr>
+          <tr><td>Reviewer + UI/API automators</td><td>Anthropic (Claude)</td><td><code>claude-haiku-4-5</code></td></tr>
+          <tr><td>Report analysis</td><td>DeepSeek</td><td><code>deepseek-flash</code></td></tr>
+          <tr><td>Executor / email</td><td>—</td><td>Maven / SES (no LLM)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Commands</h3>
+      <pre><code># Analyze → cases → review
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
+  -Dexec.args="analyze --requirement docs/examples/sample-requirement.md"
+
+# Full pipeline (includes smoke execution)
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
+  -Dexec.args="full --requirement docs/examples/sample-requirement.md --groups smoke"
+
+# Execute + report only
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
+  -Dexec.args="execute --groups smoke"</code></pre>
+
+      <h3>What to expect</h3>
+      <ul>
+        <li>Console: <code>Agent pipeline complete. Output: …</code></li>
+        <li>Markdown / logs under <code class="path">agent-generated/runs/run-&lt;timestamp&gt;/</code></li>
+        <li>Draft Java (if automators ran) under <code>agent-generated/src/…</code></li>
+        <li>Drafts are untrusted until AgentValidator + human promotion into <code>src/</code></li>
+      </ul>
+    </section>
+
+    <section id="validators">
+      <h2>5. Governance validators</h2>
+      <pre><code>scripts/agent-validator/run.sh src/test/java
+scripts/agent-validator/run.sh agent-generated/src/test/java
+scripts/architecture-validator/run.sh
+scripts/secret-detector/run.sh
+scripts/fixed-wait-detector/run.sh
+
+mvn -q -DskipTests exec:java \
+  -Dexec.mainClass="com.agenticqa.governance.AgentValidator" \
+  -Dexec.args="src/test/java/com/agenticqa/tests"</code></pre>
+      <p class="muted">Expect <strong>ACCEPTED</strong> (0 ERROR) for clean code. The flawed fixture under <code>evaluations/</code> must stay <strong>REJECTED</strong>.</p>
+    </section>
+
+    <section id="expect">
+      <h2>6. Quick “what to expect” cheat sheet</h2>
+      <table>
+        <thead>
+          <tr><th>You run…</th><th>You should see…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>mvn test</code></td><td>Visible Chrome for UI; API logs; BUILD SUCCESS; Extent report written</td></tr>
+          <tr><td><code>mvn test -Dgroups=api</code></td><td>No browser; REST Assured traffic in console/Extent</td></tr>
+          <tr><td><code>mvn test -DHEADLESS=true</code></td><td>Same tests, no browser window</td></tr>
+          <tr><td>IDE skill / orchestrator</td><td>Inventory dump → gap cases → files in <code>agent-generated/</code></td></tr>
+          <tr><td><code>AgentCli analyze</code></td><td>Run folder under <code>agent-generated/runs/</code> with markdown artifacts</td></tr>
+          <tr><td>Open report</td><td><code>target/extent-report/index.html</code> with steps, API attaches, screenshots</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    Also see
+    <a href="../README.md">README.md</a> ·
+    <a href="../HOW_TO_RUN.md">HOW_TO_RUN.md</a> ·
+    <a href="../AGENTS.md">AGENTS.md</a> ·
+    <a href="../DECISIONS.md">DECISIONS.md</a>
+  </footer>
+</body>
+</html>

@@ -6,6 +6,9 @@ deterministic governance, and an AI skill/agent ecosystem that never runs inside
 
 **Author:** Akash Aggarwal
 
+**How to run (tests, reports, agents & skills):**
+[`HOW_TO_RUN.md`](HOW_TO_RUN.md) · open in browser: [`docs/HOW_TO_RUN.html`](docs/HOW_TO_RUN.html)
+
 ---
 
 ## Table of contents
@@ -202,7 +205,8 @@ agentic-qa-automation-framework/
 ├── pom.xml · Dockerfile · LICENSE · DECISIONS.md
 ├── testng.xml · testng-parallel.xml
 ├── .env.example
-├── docs/                 # architecture, onboarding, recon, AI usage
+├── HOW_TO_RUN.md         # runbook: mvn, reports, agents, skills
+├── docs/                 # HOW_TO_RUN.html, architecture, onboarding, AI usage
 ├── .ai/                  # skills, agents, workflows, knowledge
 ├── .cursor/              # rules, commands, hooks
 ├── .github/              # Copilot instructions
@@ -282,6 +286,9 @@ Priority: **`mvn -D…` → OS env → `.env` → YAML**.
 ---
 
 ## 9. How to execute
+
+Full walkthrough (Maven, Extent path, coding agents/skills, AgentCli, validators):
+[`HOW_TO_RUN.md`](HOW_TO_RUN.md) · [`docs/HOW_TO_RUN.html`](docs/HOW_TO_RUN.html)
 
 ### Default (recommended locally)
 
@@ -373,6 +380,8 @@ mvn -DskipTests exec:java \
 ---
 
 ## 11. Reporting
+
+See also [`HOW_TO_RUN.md`](HOW_TO_RUN.md) §2 / [`docs/HOW_TO_RUN.html`](docs/HOW_TO_RUN.html).
 
 | Artifact | Location |
 |---|---|
