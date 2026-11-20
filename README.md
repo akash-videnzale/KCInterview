@@ -72,29 +72,42 @@ mvn -DskipTests compile test-compile
 
 ## 5. Configuration
 
-`src/main/resources/config/framework-config.yaml` plus environment overrides:
+Defaults live in `src/main/resources/config/framework-config.yaml`:
+**headed** (`headless: false`) and **single** (`parallelEnabled: false`).
 
-| Variable | Purpose |
-|---|---|
-| `BASE_URL` | UI base URL |
-| `API_BASE_URL` | API base URL |
-| `BROWSER` | chromium / firefox / webkit |
-| `HEADLESS` | true/false |
-| `QA_PROFILE` | optional YAML profile suffix |
+Pass Maven `-D` flags on `mvn test` to override YAML / `.env` for that run
+(Surefire forwards them into the test JVM):
+
+| `-D` / env | Purpose | Default |
+|---|---|---|
+| `HEADLESS` | `true` / `false` | `false` (with head) |
+| `PARALLEL` | `true` / `false` | `false` (single) |
+| `PARALLEL_MODE` | `methods` / `classes` / `tests` | `methods` |
+| `THREAD_COUNT` | parallel workers | `2` |
+| `BROWSER` | `chrome` / `firefox` / `edge` | `chrome` |
+| `BASE_URL` | UI base URL | YAML |
+| `API_BASE_URL` | API base URL | YAML |
+| `QA_PROFILE` | optional YAML profile suffix | `default` |
+
+Priority: **`mvn -D…` → OS env → `.env` → YAML**.
 
 ---
 
 ## 6. Test execution
 
 ```bash
-# Clean and compile
-mvn clean compile
+# Default: single + headed
+mvn test
 
-# Compile test classes
-mvn test-compile
+# Headless (still single)
+mvn test -DHEADLESS=true
 
-# Run all tests
-mvn clean test
+# Parallel (still headed)
+mvn test -DPARALLEL=true
+mvn test -DPARALLEL=true -DTHREAD_COUNT=4 -DPARALLEL_MODE=methods
+
+# Parallel + headless
+mvn test -DPARALLEL=true -DHEADLESS=true
 
 # Groups
 mvn test -Dgroups=ui
@@ -104,13 +117,13 @@ mvn test -Dgroups=smoke
 mvn test -Dgroups=regression
 mvn test -Dgroups=unit
 
-# Parallel (API-focused suite)
-mvn test -DsuiteXmlFile=testng-parallel.xml
+# Optional dedicated parallel suite XML (still needs -DPARALLEL=true to enable)
+mvn test -DPARALLEL=true -DsuiteXmlFile=testng-parallel.xml
 
 # Coverage
 mvn verify
 
-# Allure
+# Allure / Extent
 mvn allure:report
 
 # Validators

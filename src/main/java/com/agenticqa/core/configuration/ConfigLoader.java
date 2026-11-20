@@ -103,10 +103,24 @@ public final class ConfigLoader {
                 firstNonBlank(System.getProperty("PARALLEL"), System.getenv("PARALLEL"), dotenv.get("PARALLEL")),
                 base.execution() == null ? false : base.execution().parallelEnabled()
         );
+        String parallelMode = firstNonBlank(
+                System.getProperty("PARALLEL_MODE"),
+                System.getenv("PARALLEL_MODE"),
+                dotenv.get("PARALLEL_MODE"),
+                base.execution() == null ? "methods" : base.execution().mode()
+        );
+        int threadCount = parseInt(
+                firstNonBlank(
+                        System.getProperty("THREAD_COUNT"),
+                        System.getenv("THREAD_COUNT"),
+                        dotenv.get("THREAD_COUNT")
+                ),
+                base.execution() == null ? 2 : base.execution().threads()
+        );
         FrameworkConfig.ExecutionConfig execution = new FrameworkConfig.ExecutionConfig(
                 parallelEnabled,
-                base.execution() == null ? "methods" : base.execution().mode(),
-                base.execution() == null ? 2 : base.execution().threads()
+                parallelMode,
+                threadCount
         );
 
         FrameworkConfig resolved = new FrameworkConfig(
@@ -118,8 +132,14 @@ public final class ConfigLoader {
                 base.artifacts(),
                 base.reporting()
         );
-        LOG.info("Loaded config baseUrl={}, apiBaseUrl={}, browser={}, headless={}",
-                resolved.baseUrl(), resolved.apiBaseUrl(), resolved.browser().type(), resolved.browser().headless());
+        LOG.info("Loaded config baseUrl={}, apiBaseUrl={}, browser={}, headless={}, parallel={}, mode={}, threads={}",
+                resolved.baseUrl(),
+                resolved.apiBaseUrl(),
+                resolved.browser().type(),
+                resolved.browser().headless(),
+                resolved.execution().parallelEnabled(),
+                resolved.execution().mode(),
+                resolved.execution().threads());
         return resolved;
     }
 
@@ -149,6 +169,18 @@ public final class ConfigLoader {
             return defaultValue;
         }
         return Boolean.parseBoolean(value.trim());
+    }
+
+    private static int parseInt(String value, int defaultValue) {
+        if (value == null || value.isBlank()) {
+            return defaultValue;
+        }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid integer '{}', using default {}", value, defaultValue);
+            return defaultValue;
+        }
     }
 
     private static String trimTrailingSlash(String url) {

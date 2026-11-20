@@ -49,6 +49,15 @@
         <!-- Default so Surefire works before JaCoCo populate-agent runs -->
         <jacocoArgLine></jacocoArgLine>
         <suiteXmlFile>testng.xml</suiteXmlFile>
+
+        <!-- Runtime overrides forwarded into the Surefire test JVM (blank = use YAML defaults) -->
+        <HEADLESS></HEADLESS>
+        <PARALLEL></PARALLEL>
+        <PARALLEL_MODE></PARALLEL_MODE>
+        <THREAD_COUNT></THREAD_COUNT>
+        <BROWSER></BROWSER>
+        <BASE_URL></BASE_URL>
+        <API_BASE_URL></API_BASE_URL>
     </properties>
 
     <dependencies>
@@ -171,7 +180,15 @@
                     <argLine>
                         ${jacocoArgLine}
                     </argLine>
+                    <!-- Pass mvn -D… flags into the forked test JVM (overrides framework-config.yaml) -->
                     <systemPropertyVariables>
+                        <HEADLESS>${HEADLESS}</HEADLESS>
+                        <PARALLEL>${PARALLEL}</PARALLEL>
+                        <PARALLEL_MODE>${PARALLEL_MODE}</PARALLEL_MODE>
+                        <THREAD_COUNT>${THREAD_COUNT}</THREAD_COUNT>
+                        <BROWSER>${BROWSER}</BROWSER>
+                        <BASE_URL>${BASE_URL}</BASE_URL>
+                        <API_BASE_URL>${API_BASE_URL}</API_BASE_URL>
                     </systemPropertyVariables>
                     <properties>
                         <property>
