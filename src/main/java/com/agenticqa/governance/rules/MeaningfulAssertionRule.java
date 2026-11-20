@@ -49,13 +49,13 @@ public class MeaningfulAssertionRule implements ValidationRule {
                 continue;
             }
             long asserts = method.findAll(MethodCallExpr.class).stream()
-                    .filter(c -> ASSERT_METHODS.contains(c.getNameAsString()))
+                    .filter(c -> isAssertionCall(c.getNameAsString()))
                     .count();
             if (asserts == 0) {
                 report.add(new Violation(file.toString(), method.getBegin().map(p -> p.line).orElse(1),
                         id(), Severity.ERROR,
                         "Test method '" + method.getNameAsString() + "' has no TestNG assertions",
-                        "Add Assert/SoftAssert validations for business outcomes"));
+                        "Add Assert/SoftAssert or *Assertions.assert* helpers for business outcomes"));
             }
             method.findAll(MethodCallExpr.class).forEach(call -> {
                 if ("assertTrue".equals(call.getNameAsString()) && call.getArguments().size() == 1
@@ -67,6 +67,11 @@ public class MeaningfulAssertionRule implements ValidationRule {
                 }
             });
         }
+    }
+
+    /** TestNG Assert/SoftAssert methods, plus framework helpers named {@code assert*}. */
+    private static boolean isAssertionCall(String name) {
+        return ASSERT_METHODS.contains(name) || name.startsWith("assert");
     }
 
     private static boolean isTestFile(Path file) {

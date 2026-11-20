@@ -1,6 +1,7 @@
 package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -45,19 +46,23 @@ public class ProductDetailsPage extends BasePage {
     }
 
     public String productCategory() {
-        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,'Category')]"));
+        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,\""
+                + UiMessages.LABEL_CATEGORY + "\")]"));
     }
 
     public String productAvailability() {
-        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,'Availability')]"));
+        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,\""
+                + UiMessages.LABEL_AVAILABILITY + "\")]"));
     }
 
     public String productCondition() {
-        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,'Condition')]"));
+        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,\""
+                + UiMessages.LABEL_CONDITION + "\")]"));
     }
 
     public String productBrand() {
-        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,'Brand')]"));
+        return text(By.xpath("//div[contains(@class,'product-information')]//p[contains(.,\""
+                + UiMessages.LABEL_BRAND + "\")]"));
     }
 
     public ProductDetailsPage setQuantity(int quantity) {
@@ -71,7 +76,7 @@ public class ProductDetailsPage extends BasePage {
         if (isVisible(By.cssSelector("button.cart"))) {
             click(By.cssSelector("button.cart"));
         } else {
-            click(By.xpath("//button[contains(normalize-space(),'Add to cart')]"));
+            click(byTagTextContains("button", UiMessages.ADD_TO_CART));
         }
         waitDefault().until(ExpectedConditions.visibilityOfElementLocated(By.id("cartModal")));
         ExtentLogger.screenshot("Added to cart from details");

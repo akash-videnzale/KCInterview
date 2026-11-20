@@ -29,7 +29,7 @@ public class BrandListApiTest extends ApiBaseTest {
         BrandsListResponse body = brandApi.parseBrandsList(raw);
         ApiResponseAssertions.assertBrandsListData(body);
 
-        Brand polo = body.requireById(KnownBrands.POLO.id());
-        Assert.assertEquals(polo.brand(), KnownBrands.POLO.brand());
+        Brand polo = body.requireById(KnownBrands.POLO.getId());
+        Assert.assertEquals(polo.getBrand(), KnownBrands.POLO.getBrand());
     }
 }

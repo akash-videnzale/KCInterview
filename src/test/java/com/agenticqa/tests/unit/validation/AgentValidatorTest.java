@@ -49,7 +49,7 @@ public class AgentValidatorTest {
                   private final ProductApiClient productApi = new ProductApiClient();
                   @Test
                   public void shouldLoadProducts() {
-                    Assert.assertTrue(productApi.getAllProducts().products().size() > 0, "products present");
+                    Assert.assertTrue(productApi.getAllProducts().getProducts().size() > 0, "products present");
                   }
                 }
                 """;

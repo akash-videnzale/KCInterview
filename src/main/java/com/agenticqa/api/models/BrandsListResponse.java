@@ -2,6 +2,7 @@ package com.agenticqa.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +14,33 @@ import java.util.Optional;
  * @author Akash Aggarwal
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record BrandsListResponse(int responseCode, List<Brand> brands) {
+public class BrandsListResponse {
 
-    public BrandsListResponse {
-        brands = brands == null ? List.of() : List.copyOf(brands);
+    private int responseCode;
+    private List<Brand> brands = new ArrayList<>();
+
+    public BrandsListResponse() {
+    }
+
+    public BrandsListResponse(int responseCode, List<Brand> brands) {
+        this.responseCode = responseCode;
+        setBrands(brands);
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public List<Brand> getBrands() {
+        return brands;
+    }
+
+    public void setBrands(List<Brand> brands) {
+        this.brands = brands == null ? new ArrayList<>() : brands;
     }
 
     public boolean isSuccess() {
@@ -24,15 +48,18 @@ public record BrandsListResponse(int responseCode, List<Brand> brands) {
     }
 
     public int brandCount() {
-        return brands.size();
+        return brands == null ? 0 : brands.size();
     }
 
     public boolean isEmpty() {
-        return brands.isEmpty();
+        return brands == null || brands.isEmpty();
     }
 
     public Optional<Brand> findById(int id) {
-        return brands.stream().filter(b -> b != null && b.id() == id).findFirst();
+        if (brands == null) {
+            return Optional.empty();
+        }
+        return brands.stream().filter(b -> b != null && b.getId() == id).findFirst();
     }
 
     public Brand requireById(int id) {

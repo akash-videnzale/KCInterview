@@ -2,12 +2,12 @@ package com.agenticqa.tests.ui.signup;
 
 import com.agenticqa.data.factories.RegistrationDataFactory;
 import com.agenticqa.data.models.RegistrationData;
+import com.agenticqa.ui.assertions.UiAssertions;
 import com.agenticqa.ui.fixtures.UiBaseTest;
 import com.agenticqa.ui.pages.AccountPage;
 import com.agenticqa.ui.pages.HomePage;
 import com.agenticqa.ui.pages.LoginPage;
 import com.agenticqa.ui.pages.SignupPage;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -23,19 +23,19 @@ public class SignupUiTest extends UiBaseTest {
 
         LoginPage loginPage = new LoginPage();
         loginPage.open();
-        Assert.assertTrue(loginPage.isLoginFormVisible(), "Login/Signup page should be visible");
+        UiAssertions.assertLoginFormVisible(loginPage);
 
         SignupPage signupPage = loginPage.startSignup(data.name(), data.email());
-        Assert.assertTrue(signupPage.isAccountInfoVisible(), "Account info form should be visible");
+        UiAssertions.assertAccountInfoVisible(signupPage);
 
         AccountPage accountPage = signupPage.completeRegistration(data);
-        Assert.assertTrue(accountPage.isAccountCreatedVisible(), "Account created should be visible");
+        UiAssertions.assertAccountCreated(accountPage);
 
         HomePage home = accountPage.continueAfterCreated();
-        Assert.assertTrue(home.header().isLoggedIn(), "User should be logged in");
+        UiAssertions.assertLoggedIn(home);
 
         accountPage.deleteAccount();
-        Assert.assertTrue(accountPage.isAccountDeletedVisible(), "Account deleted should be visible");
+        UiAssertions.assertAccountDeleted(accountPage);
         accountPage.continueAfterDeleted();
     }
 }

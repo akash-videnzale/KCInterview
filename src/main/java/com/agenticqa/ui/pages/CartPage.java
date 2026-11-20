@@ -1,7 +1,8 @@
 package com.agenticqa.ui.pages;
 
-import com.agenticqa.ui.components.CartItemComponent;
 import com.agenticqa.core.reporting.ExtentLogger;
+import com.agenticqa.ui.components.CartItemComponent;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,7 +53,7 @@ public class CartPage extends BasePage {
         if (isVisible(By.cssSelector("a.check_out"))) {
             click(By.cssSelector("a.check_out"));
         } else {
-            click(By.xpath("//a[contains(normalize-space(),'Proceed To Checkout')]"));
+            click(byTagTextContains("a", UiMessages.PROCEED_TO_CHECKOUT));
         }
         waitForDomReady();
         ExtentLogger.screenshot("Checkout page");

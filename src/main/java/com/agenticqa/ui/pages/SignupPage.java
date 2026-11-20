@@ -2,6 +2,7 @@ package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
 import com.agenticqa.data.models.RegistrationData;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -21,7 +22,7 @@ public class SignupPage extends BasePage {
     }
 
     public boolean isAccountInfoVisible() {
-        return isVisible(By.xpath("//b[contains(normalize-space(),'Enter Account Information')]"))
+        return isVisible(byTagTextContains("b", UiMessages.ENTER_ACCOUNT_INFORMATION))
                 || isVisible(byDataQa("create-account"));
     }
 

@@ -4,6 +4,7 @@ import com.agenticqa.data.factories.CheckoutDataFactory;
 import com.agenticqa.data.factories.RegistrationDataFactory;
 import com.agenticqa.data.models.PaymentData;
 import com.agenticqa.data.models.RegistrationData;
+import com.agenticqa.ui.assertions.UiAssertions;
 import com.agenticqa.ui.fixtures.UiBaseTest;
 import com.agenticqa.ui.pages.AccountPage;
 import com.agenticqa.ui.pages.CartPage;
@@ -12,7 +13,6 @@ import com.agenticqa.ui.pages.LoginPage;
 import com.agenticqa.ui.pages.PaymentPage;
 import com.agenticqa.ui.pages.ProductsPage;
 import com.agenticqa.ui.pages.SignupPage;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -31,26 +31,26 @@ public class CheckoutUiTest extends UiBaseTest {
         loginPage.open();
         SignupPage signupPage = loginPage.startSignup(user.name(), user.email());
         AccountPage accountPage = signupPage.completeRegistration(user);
-        Assert.assertTrue(accountPage.isAccountCreatedVisible(), "Signup must succeed");
+        UiAssertions.assertAccountCreated(accountPage);
         accountPage.continueAfterCreated();
 
         ProductsPage productsPage = new ProductsPage();
         productsPage.open();
         productsPage.addFirstProductToCart();
         CartPage cartPage = productsPage.viewCartFromModal();
-        Assert.assertTrue(cartPage.isLoaded(), "Cart should load");
-        Assert.assertTrue(cartPage.itemCount() >= 1, "Cart should have a product");
+        UiAssertions.assertCartLoaded(cartPage);
+        UiAssertions.assertCartHasItems(cartPage);
 
         CheckoutPage checkoutPage = cartPage.proceedToCheckout();
-        Assert.assertTrue(checkoutPage.isAddressDetailsVisible(), "Address details should show");
+        UiAssertions.assertAddressDetailsVisible(checkoutPage);
         checkoutPage.enterOrderComment(CheckoutDataFactory.orderComment());
 
         PaymentPage paymentPage = checkoutPage.placeOrder();
-        Assert.assertTrue(paymentPage.isLoaded(), "Payment page should load");
+        UiAssertions.assertPaymentPageLoaded(paymentPage);
         paymentPage.fillPracticeCard(payment).payAndConfirm();
-        Assert.assertTrue(paymentPage.isOrderPlaced(), "Order should be confirmed");
+        UiAssertions.assertOrderPlaced(paymentPage);
 
         accountPage.deleteAccount();
-        Assert.assertTrue(accountPage.isAccountDeletedVisible(), "Cleanup delete should succeed");
+        UiAssertions.assertAccountDeleted(accountPage);
     }
 }

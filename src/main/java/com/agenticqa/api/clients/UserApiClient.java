@@ -63,7 +63,7 @@ public class UserApiClient extends BaseApiClient {
     public UserDetailResponse parseUserDetailResponse(Response response) {
         try {
             UserDetailResponse parsed = mapper.readValue(normalizeBody(response.asString()), UserDetailResponse.class);
-            if (parsed.user() == null) {
+            if (parsed.getUser() == null) {
                 throw new IllegalStateException("user missing in response: " + normalizeBody(response.asString()));
             }
             return parsed;

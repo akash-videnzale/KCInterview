@@ -33,9 +33,9 @@ public class ProductSearchApiTest extends ApiBaseTest {
         ProductsListResponse body = productApi.parseProductsList(raw);
         ApiResponseAssertions.assertSearchResultsData(body, term);
 
-        Product blueTop = body.requireById(KnownProducts.BLUE_TOP.id());
-        Assert.assertEquals(blueTop.name(), KnownProducts.BLUE_TOP.name());
-        Assert.assertEquals(blueTop.price(), KnownProducts.BLUE_TOP.price());
+        Product blueTop = body.requireById(KnownProducts.BLUE_TOP.getId());
+        Assert.assertEquals(blueTop.getName(), KnownProducts.BLUE_TOP.getName());
+        Assert.assertEquals(blueTop.getPrice(), KnownProducts.BLUE_TOP.getPrice());
     }
 
     @Test(groups = {"api", "regression"})

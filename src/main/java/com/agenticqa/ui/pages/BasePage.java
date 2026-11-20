@@ -218,6 +218,19 @@ public abstract class BasePage {
         new Select(waitVisible(locator)).selectByVisibleText(text);
     }
 
+    /**
+     * XPath for any element whose normalized text contains {@code text}.
+     * Prefer {@link #byDataQa(String)} when the AUT exposes a stable attribute.
+     */
+    protected By byTextContains(String text) {
+        return By.xpath("//*[contains(normalize-space(),\"" + text + "\")]");
+    }
+
+    /** XPath for a specific tag whose normalized text contains {@code text}. */
+    protected By byTagTextContains(String tag, String text) {
+        return By.xpath("//" + tag + "[contains(normalize-space(),\"" + text + "\")]");
+    }
+
     /** {@code true} when at least one matching element is present and displayed. */
     protected boolean isVisible(By locator) {
         try {

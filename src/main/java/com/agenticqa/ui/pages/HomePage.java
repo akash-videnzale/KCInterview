@@ -1,6 +1,7 @@
 package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -28,7 +29,7 @@ public class HomePage extends BasePage {
     }
 
     public boolean isLoaded() {
-        return isVisible(By.cssSelector("img[alt='Website for automation practice']"))
+        return isVisible(By.cssSelector("img[alt='" + UiMessages.HOME_BANNER_ALT + "']"))
                 || isVisible(By.cssSelector(".features_items"));
     }
 

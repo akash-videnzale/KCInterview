@@ -1,7 +1,7 @@
 package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
-import org.openqa.selenium.By;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -83,6 +83,6 @@ public class LoginPage extends BasePage {
     }
 
     public boolean isInvalidCredentialsVisible() {
-        return isVisible(By.xpath("//p[contains(normalize-space(),'Your email or password is incorrect!')]"));
+        return isVisible(byTagTextContains("p", UiMessages.INVALID_LOGIN));
     }
 }

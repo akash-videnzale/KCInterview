@@ -32,16 +32,19 @@ public class ExtentTestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        String name = result.getMethod().getQualifiedName();
+        String name = TestDisplayName.from(result);
         String description = result.getMethod().getDescription();
-        ExtentTest test = ExtentReportManager.createTest(name, description == null ? "" : description);
+        if (description == null || description.isBlank()) {
+            description = result.getMethod().getQualifiedName();
+        }
+        ExtentTest test = ExtentReportManager.createTest(name, description);
         String[] groups = result.getMethod().getGroups();
         if (groups != null) {
             for (String group : groups) {
                 test.assignCategory(group);
             }
         }
-        test.log(Status.INFO, "Started: " + result.getMethod().getMethodName());
+        test.log(Status.INFO, "Started: " + name);
         if (isUi(result)) {
             ExtentLogger.step("UI test started — browser context ready");
         } else {

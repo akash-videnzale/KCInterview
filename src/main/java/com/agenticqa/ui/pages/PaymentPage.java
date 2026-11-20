@@ -2,7 +2,7 @@ package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
 import com.agenticqa.data.models.PaymentData;
-import org.openqa.selenium.By;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -41,19 +41,14 @@ public class PaymentPage extends BasePage {
         click(byDataQa("pay-button"));
         waitForDomReady();
         dismissOverlaysIfPresent();
-        waitDefault().until(d ->
-                !d.findElements(byDataQa("order-placed")).isEmpty()
-                        || !d.findElements(By.xpath(
-                        "//*[contains(normalize-space(),'Congratulations! Your order has been confirmed!') "
-                                + "or contains(normalize-space(),'Order Placed')]")).isEmpty()
-        );
+        waitDefault().until(d -> isOrderPlaced());
         ExtentLogger.screenshot("Order confirmation");
         return this;
     }
 
     public boolean isOrderPlaced() {
         return isVisible(byDataQa("order-placed"))
-                || isVisible(By.xpath("//*[contains(normalize-space(),'Congratulations! Your order has been confirmed!')]"))
-                || isVisible(By.xpath("//*[contains(normalize-space(),'Order Placed')]"));
+                || isVisible(byTextContains(UiMessages.ORDER_CONFIRMED))
+                || isVisible(byTextContains(UiMessages.ORDER_PLACED));
     }
 }

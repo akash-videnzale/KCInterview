@@ -1,6 +1,7 @@
 package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -34,8 +35,8 @@ public class CheckoutPage extends BasePage {
         dismissOverlaysIfPresent();
         if (isVisible(By.cssSelector("a[href='/payment']"))) {
             click(By.cssSelector("a[href='/payment']"));
-        } else if (isVisible(By.xpath("//a[contains(normalize-space(),'Place Order')]"))) {
-            click(By.xpath("//a[contains(normalize-space(),'Place Order')]"));
+        } else if (isVisible(byTagTextContains("a", UiMessages.PLACE_ORDER))) {
+            click(byTagTextContains("a", UiMessages.PLACE_ORDER));
         } else {
             navigate("/payment");
         }

@@ -29,9 +29,9 @@ public class ProductListApiTest extends ApiBaseTest {
         ProductsListResponse body = productApi.parseProductsList(raw);
         ApiResponseAssertions.assertProductsListData(body);
 
-        Product blueTop = body.requireById(KnownProducts.BLUE_TOP.id());
-        Assert.assertEquals(blueTop.name(), KnownProducts.BLUE_TOP.name());
-        Assert.assertEquals(blueTop.price(), KnownProducts.BLUE_TOP.price());
-        Assert.assertEquals(blueTop.brand(), KnownProducts.BLUE_TOP.brand());
+        Product blueTop = body.requireById(KnownProducts.BLUE_TOP.getId());
+        Assert.assertEquals(blueTop.getName(), KnownProducts.BLUE_TOP.getName());
+        Assert.assertEquals(blueTop.getPrice(), KnownProducts.BLUE_TOP.getPrice());
+        Assert.assertEquals(blueTop.getBrand(), KnownProducts.BLUE_TOP.getBrand());
     }
 }

@@ -1,8 +1,9 @@
 package com.agenticqa.ui.pages;
 
+import com.agenticqa.core.reporting.ExtentLogger;
 import com.agenticqa.ui.components.NavigationComponent;
 import com.agenticqa.ui.components.ProductCardComponent;
-import com.agenticqa.core.reporting.ExtentLogger;
+import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,7 +53,7 @@ public class ProductsPage extends BasePage {
     }
 
     public boolean hasSearchResultsHeading() {
-        return isVisible(By.xpath("//h2[contains(normalize-space(),'Searched Products')]"))
+        return isVisible(byTagTextContains("h2", UiMessages.SEARCHED_PRODUCTS))
                 || isVisible(By.cssSelector(".features_items"));
     }
 
@@ -76,12 +77,14 @@ public class ProductsPage extends BasePage {
                 .stream()
                 .findFirst()
                 .orElseGet(() -> find(By.xpath(
-                        "(//div[contains(@class,'features_items')]//a[contains(normalize-space(),'View Product')])[1]")));
+                        "(//div[contains(@class,'features_items')]//a[contains(normalize-space(),\""
+                                + UiMessages.VIEW_PRODUCT + "\")])[1]")));
         String href = link.getAttribute("href");
         if (href != null && !href.isBlank()) {
             navigate(href);
         } else {
-            click(By.xpath("(//div[contains(@class,'features_items')]//a[contains(normalize-space(),'View Product')])[1]"));
+            click(By.xpath("(//div[contains(@class,'features_items')]//a[contains(normalize-space(),\""
+                    + UiMessages.VIEW_PRODUCT + "\")])[1]"));
         }
         waitForDomReady();
         dismissOverlaysIfPresent();
@@ -119,7 +122,8 @@ public class ProductsPage extends BasePage {
     }
 
     public ProductsPage continueShopping() {
-        click(By.xpath("//div[@id='cartModal']//button[contains(normalize-space(),'Continue Shopping')]"));
+        click(By.xpath("//div[@id='cartModal']//button[contains(normalize-space(),\""
+                + UiMessages.CONTINUE_SHOPPING + "\")]"));
         return this;
     }
 

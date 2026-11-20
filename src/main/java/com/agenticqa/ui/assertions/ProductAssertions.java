@@ -22,7 +22,7 @@ public final class ProductAssertions {
     }
 
     public static void assertKnownBlueTopDetails(String name, String price) {
-        assertExactProductName(name, KnownProducts.BLUE_TOP.name());
-        assertExactProductPrice(price, KnownProducts.BLUE_TOP.price());
+        assertExactProductName(name, KnownProducts.BLUE_TOP.getName());
+        assertExactProductPrice(price, KnownProducts.BLUE_TOP.getPrice());
     }
 }
