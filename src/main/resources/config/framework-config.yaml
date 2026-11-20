@@ -1,0 +1,28 @@
+baseUrl: https://automationexercise.com
+apiBaseUrl: https://automationexercise.com
+
+browser:
+  type: chrome
+  headless: false
+  capturePageSourceOnFailure: true
+  screenshotOnFailure: true
+  viewportWidth: "1440"
+  viewportHeight: "900"
+
+execution:
+  parallelEnabled: false
+  parallelMode: methods
+  threadCount: 2
+
+timeouts:
+  defaultTimeoutMs: 30000
+  navigationTimeoutMs: 45000
+  apiTimeoutMs: 30000
+
+artifacts:
+  directory: target/artifacts
+  collectConsoleErrors: true
+  collectPageErrors: true
+
+reporting:
+  redactSecrets: true

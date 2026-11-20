@@ -1,0 +1,39 @@
+# Build
+/target/
+/test-output/
+*.class
+*.jar
+*.war
+*.ear
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & reports
+*.log
+/logs/
+/allure-results/
+/allure-report/
+/.allure/
+/agent-output/
+
+# Maven
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup

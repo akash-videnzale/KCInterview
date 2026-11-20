@@ -1,0 +1,13 @@
+---
+description: Project architecture constraints for the agentic QA framework
+globs: ["**/*.java", "**/pom.xml", "**/testng*.xml"]
+alwaysApply: true
+---
+
+# Architecture
+
+- Respect five layers: core, services (pages/api/factories), tests, AI ecosystem, governance.
+- UI tests extend `UiBaseTest`; API tests extend `ApiBaseTest`.
+- Do not initialize Playwright in API tests.
+- Do not create Browser/BrowserContext/Page inside tests.
+- New code belongs in existing packages; do not invent parallel frameworks.

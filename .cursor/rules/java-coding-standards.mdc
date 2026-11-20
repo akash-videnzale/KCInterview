@@ -1,0 +1,10 @@
+---
+description: Java 21 coding standards
+globs: ["**/*.java"]
+alwaysApply: false
+---
+
+# Java Standards
+- Java 21, meaningful names, prefer records for immutable data.
+- Composition over inheritance; keep base classes lightweight.
+- No empty catch blocks; no swallowed assertions.

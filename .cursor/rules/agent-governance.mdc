@@ -1,0 +1,11 @@
+---
+description: Deterministic governance for AI contributions
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Agent Governance
+- AI agents are empowered but not trusted: run AgentValidator before completion.
+- QA Reviewer is review-only by default — no silent edits.
+- Forbidden in tests: hardcoded secrets/URLs, fixed waits, direct browser/HTTP bootstrap.
+- Runtime tests must never call LLM APIs.

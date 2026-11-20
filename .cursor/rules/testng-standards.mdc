@@ -1,0 +1,11 @@
+---
+description: TestNG and assertion standards
+globs: ["**/tests/**/*.java"]
+alwaysApply: false
+---
+
+# TestNG
+- Only TestNG runner and TestNG Assert/SoftAssert.
+- SoftAssert requires assertAll().
+- Groups: ui, api, integration, smoke, regression, unit.
+- No JUnit / AssertJ / Hamcrest.

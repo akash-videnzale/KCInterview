@@ -1,0 +1,11 @@
+---
+description: Selenium Java UI standards
+globs: ["**/pages/**/*.java", "**/components/**/*.java", "**/tests/ui/**/*.java", "**/fixtures/**/*.java"]
+alwaysApply: false
+---
+
+# Selenium
+- Use page objects + components; prefer verified `data-qa` / stable CSS/XPath.
+- Wait with `WebDriverWait` + `ExpectedConditions` (no `Thread.sleep` / `TimeUnit.sleep` in tests).
+- Obtain `WebDriver` only via `UiBaseTest.page()` / `SessionFactory` — never `new ChromeDriver()` in tests.
+- Dismiss AE overlays via `BasePage.dismissOverlaysIfPresent()` when needed.

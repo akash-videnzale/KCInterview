@@ -1,0 +1,11 @@
+---
+description: REST Assured API testing standards
+globs: ["**/api/**/*.java", "**/tests/api/**/*.java"]
+alwaysApply: false
+---
+
+# API
+- Use *ApiClient classes only from tests.
+- Validate HTTP status and business responseCode.
+- Use SchemaValidator for stable payloads.
+- Do not invent endpoints; consult docs/recon.
