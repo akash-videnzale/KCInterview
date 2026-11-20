@@ -62,6 +62,7 @@ public final class AgentCli {
             case "execute" -> new AgentPipeline(java.util.List.of(
                     new AutomationExecutorAgent(writer),
                     new FailedTestReexecutorAgent(writer),
+                    new ExecutionHtmlReportAgent(writer),
                     new ReportAnalyzerAgent(config, new com.agenticqa.agents.llm.LlmClientFactory(config), writer),
                     new EmailReportSenderAgent(config, writer)
             ), writer);
@@ -70,7 +71,14 @@ public final class AgentCli {
 
         pipeline.run(context);
         System.out.println("Agent pipeline complete. Output: " + out.toAbsolutePath());
-        System.out.println("Provider for requirement analysis: " + context.meta("requirementProvider"));
+        Object htmlReport = context.meta("executionHtmlReport");
+        if (htmlReport != null) {
+            System.out.println("Execution HTML report: " + htmlReport);
+        }
+        Object requirementProvider = context.meta("requirementProvider");
+        if (requirementProvider != null) {
+            System.out.println("Provider for requirement analysis: " + requirementProvider);
+        }
     }
 
     private static void printHelp() {

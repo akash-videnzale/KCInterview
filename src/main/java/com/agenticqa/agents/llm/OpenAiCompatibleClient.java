@@ -42,7 +42,12 @@ public final class OpenAiCompatibleClient implements LlmClient {
             ObjectNode body = mapper.createObjectNode();
             body.put("model", model);
             body.put("temperature", request.temperature());
-            body.put("max_tokens", request.maxTokens());
+            // OpenAI nano / newer chat models reject max_tokens; DeepSeek still expects it.
+            if (provider == LlmProvider.OPENAI) {
+                body.put("max_completion_tokens", request.maxTokens());
+            } else {
+                body.put("max_tokens", request.maxTokens());
+            }
             ArrayNode messages = body.putArray("messages");
             messages.addObject().put("role", "system").put("content", request.systemPrompt());
             messages.addObject().put("role", "user").put("content", request.userPrompt());

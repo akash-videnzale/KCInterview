@@ -3,6 +3,7 @@ package com.agenticqa.agents.pipeline;
 import com.agenticqa.agents.ApiTestAutomatorAgent;
 import com.agenticqa.agents.AutomationExecutorAgent;
 import com.agenticqa.agents.EmailReportSenderAgent;
+import com.agenticqa.agents.ExecutionHtmlReportAgent;
 import com.agenticqa.agents.FailedTestReexecutorAgent;
 import com.agenticqa.agents.ReportAnalyzerAgent;
 import com.agenticqa.agents.RequirementAnalysisAgent;
@@ -61,6 +62,7 @@ public final class AgentPipeline {
         agents.add(new UiTestAutomatorAgent(config, factory, writer));
         agents.add(new AutomationExecutorAgent(writer));
         agents.add(new FailedTestReexecutorAgent(writer));
+        agents.add(new ExecutionHtmlReportAgent(writer));
         agents.add(new ReportAnalyzerAgent(config, factory, writer));
         agents.add(new EmailReportSenderAgent(config, writer));
         return new AgentPipeline(agents, writer);

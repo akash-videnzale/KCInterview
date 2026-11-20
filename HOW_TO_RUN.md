@@ -163,6 +163,10 @@ mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
 - Markdown / logs under `agent-generated/runs/run-<timestamp>/`
 - Draft Java (if automators run) under `agent-generated/src/...`
 - Console: `Agent pipeline complete. Output: ...`
+- After `full` / `execute`: simple pass/fail HTML at  
+  `agent-generated/runs/run-<timestamp>/11-execution-report.html`  
+  (also printed as `Execution HTML report: …`)
+- Maven Extent report still at `target/extent-report/index.html`
 - Drafts are **untrusted** until AgentValidator + human promotion into `src/`
 
 ---
