@@ -1,62 +1,45 @@
 ---
 name: review-test-quality
-description: Review-only assessment of assertions, locators, duplication, and maintainability.
+description: Review-only gate for agent-authored tests (assignment + framework rules).
 ---
 
 # review-test-quality
 
 ## Purpose
-Review-only assessment of assertions, locators, duplication, and maintainability.
+ACCEPT / REJECT a contribution. Review only — do not silently rewrite code unless asked.
 
 ## When to use
-After generating or modifying tests; QA Reviewer agent default mode.
+After create-* skills; before saying “done”; QA Reviewer agent default.
 
 ## Required inputs
-Git diff or file paths.
+Diff or file paths.
 
-## Preconditions
-Do not silently modify reviewed code.
+## Checklist (assignment + framework)
+1. **Critical flows still healthy:** Signup, Product Discovery, Checkout (+ API counterparts)
+2. **Stack correct:** Selenium/TestNG — not Playwright/TS
+3. **Layers:** tests thin; pages/clients/factories hold details
+4. **Asserts:** `UiAssertions` / `ApiResponseAssertions` / meaningful `assert*` helpers
+5. **Data:** unique factories + cleanup
+6. **No sleeps / hardcoded secrets / raw WebDriver / raw RestAssured in tests**
+7. **Exact values** where we claim exactness (`KnownProducts`, `ApiMessages`)
+8. Run **AgentValidator** — ERROR ⇒ REJECT
 
 ## Workflow
-1. Run AgentValidator
-2. Check TestNG assertion quality
-3. Check page object usage
-4. Flag missing negative cases
-5. Produce ACCEPT/REJECT with findings
+1. `mvn -q test-compile`
+2. Run AgentValidator on touched tests
+3. Skim for prohibited patterns
+4. Output ACCEPT or REJECT with findings
 
-
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
-
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
-
-## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
+## Output
 ```text
-RESULT: REJECTED
-[FAIL] AQ-WAIT-002 Fixed wait detected
-[WARN] AQ-UI-001 Low-level querySelector in test
+RESULT: ACCEPTED | REJECTED
+Findings:
+- [FAIL] …
+- [WARN] …
+Required fixes:
+- …
 ```
 
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
+## Prohibited for reviewer
+- Silent drive-by refactors unrelated to findings
+- Approving code that invents AE APIs

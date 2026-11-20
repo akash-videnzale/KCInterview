@@ -18,3 +18,16 @@ As a new shopper on Automation Exercise, I must be able to register, discover a 
 3. Authenticated checkout reaches order confirmation.
 4. Account can be deleted via UI or API after the journey.
 5. Negative API search without `search_product` returns business code 400.
+
+## Agent instructions
+1. Read `docs/requirements/AUTOMATION_REQUIREMENTS.md`
+2. Read `.ai/knowledge/automation-inventory.md` and **list existing scripts** (this happy path is largely **already automated**)
+3. Mark REQ-* as COVERED vs GAP
+4. Only propose new P0/P1/P2 cases for true gaps
+5. Follow `.ai/workflows/agentic-delivery-chain.md`
+
+## Already covered (do not rebuild)
+- `SignupUiTest#shouldRegisterUniqueUserAndDeleteAccount`
+- `ProductDiscoveryUiTest#shouldSearchProductsAndOpenDetails`
+- `CheckoutUiTest#shouldCompleteCheckoutWithPracticePayment`
+- `ProductListApiTest` / `ProductSearchApiTest` / `UserRegistrationAuthApiTest`

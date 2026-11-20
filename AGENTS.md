@@ -45,17 +45,22 @@ Do **not** use JUnit, AssertJ, Hamcrest, or Selenium.
 ## Operating rules
 
 1. Read `.ai/skills/framework-onboarding/SKILL.md` before coding.
-2. Inspect `docs/recon/automation-exercise-findings.md` — do not invent APIs/selectors.
-3. UI tests extend `UiBaseTest`; API tests extend `ApiBaseTest`.
-4. Use factories for data; cleanup accounts when created.
-5. Before finishing, run AgentValidator and fix ERROR violations.
-6. Treat LLM-generated Java under `agent-output/` as drafts until validated and reviewed.
+2. Read `docs/requirements/AUTOMATION_REQUIREMENTS.md` and **`.ai/knowledge/automation-inventory.md`** — print existing tests/data/scripts before proposing new ones.
+3. Follow the agentic chain: requirement → inventory → P0/P1/P2 gap cases → automate → validate (`.ai/workflows/agentic-delivery-chain.md`).
+4. **Write all agent-generated automation under `agent-generated/` only** — never into `src/main` or `src/test` unless the human explicitly asks to promote (see `.ai/knowledge/agent-generated-sandbox.md`).
+5. Inspect `docs/recon/automation-exercise-findings.md` — do not invent APIs/selectors.
+6. UI tests extend `UiBaseTest`; API tests extend `ApiBaseTest` (Selenium — not Playwright).
+7. Use factories for data; cleanup accounts when created.
+8. Before finishing, run AgentValidator on `agent-generated/src/test/java` and fix ERROR violations.
+9. Treat drafts under `agent-generated/` (and legacy `agent-output/`) as untrusted until validated, reviewed, and promoted.
 
 ## Commands map (coding agents)
 
 | Intent | Skill | Cursor command |
 |---|---|---|
+| Full delivery chain | agentic-delivery-chain | (orchestrator agent) |
 | Analyze requirement | requirement-analysis | `/analyze-requirement` |
+| Coverage vs inventory | analyze-test-coverage | — |
 | UI test | create-ui-test | `/create-ui-test` |
 | API test | create-api-test | `/create-api-test` |
 | Page object | create-page-object | `/create-page-object` |

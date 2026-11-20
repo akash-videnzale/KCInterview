@@ -1,8 +1,22 @@
 # Test Case Reviewer Runtime Agent
 
-Review-only sufficiency gate focused on **P0 and P1**, then P2 gaps.
+Optional **LLM** review gate for generated cases (sufficiency, not TestNG execution).
 
-Default LLM: Anthropic `claude-haiku-4-5` (`REVIEWER_LLM=anthropic`).
+## Role
+Review-only: are P0/P1 cases enough for the requirement? Call out P2 gaps without expanding scope wildly.
+
+## Defaults
+- Provider: Anthropic (`REVIEWER_LLM=anthropic`)
+- Model: `claude-haiku-4-5`
+
+## Review focus
+- Assignment critical flows present (Signup, Discovery, Checkout + API)
+- Negative/cleanup cases where accounts are created
+- No invented AE APIs
+- Depth over breadth
 
 ## Implementation
 `com.agenticqa.agents.TestCaseReviewerAgent`
+
+## Note
+This does **not** replace the coding-agent **QA Reviewer** + `AgentValidator` for Java contributions.

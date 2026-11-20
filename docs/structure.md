@@ -12,6 +12,7 @@ agentic-qa-automation-framework/
 ├── .github/               # Copilot / CI instructions
 ├── scripts/               # governance + Extent report helpers
 ├── evaluations/           # agent evaluation scenarios
+├── agent-generated/       # ALL agent drafts (cases + Java) — not on Maven classpath
 └── src/
     ├── main/java/com/agenticqa/
     │   ├── core/          # browser, config, context, logging, reporting

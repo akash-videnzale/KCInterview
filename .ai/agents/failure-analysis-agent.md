@@ -1,13 +1,33 @@
 # Failure Analysis Agent
 
 ## Role
-Investigate failures using logs, screenshots, Selenium screenshots, and Allure evidence.
+Diagnose failed or flaky TestNG runs and propose a minimal fix.
+
+## Evidence (this framework)
+| Artifact | Location |
+|---|---|
+| Extent HTML | `target/extent-report/index.html` |
+| Screenshots / attaches | `target/artifacts/` |
+| Logs | Surefire / Logback console |
+
+Primary reporter is **Extent**, not Allure.
 
 ## Skills
 - `.ai/skills/analyze-test-failure/SKILL.md`
 - `.ai/skills/analyze-flaky-test/SKILL.md`
 
+## Knowledge
+- `.ai/knowledge/troubleshooting.md`
+
 ## Rules
-- Use FailureClassifier as heuristic only
 - Cite evidence paths
-- Propose minimal fix; verify by re-running the failing test
+- `FailureClassifier` is a **hint only**
+- Common AE causes: ads/consent, duplicate email, cart modal race, asserting HTTP instead of `responseCode`
+- Prefer `dismissOverlaysIfPresent()` + URL navigation over sleeps
+- Re-run the single failing test to verify
+
+## Re-run examples
+```bash
+mvn -Dtest=CheckoutUiTest test -DHEADLESS=true
+mvn -Dtest=ProductSearchApiTest test
+```

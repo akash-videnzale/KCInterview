@@ -1,61 +1,34 @@
 ---
 name: analyze-flaky-test
-description: Identify non-determinism: shared state, fixed waits, racey locators, data collisions.
+description: Find non-determinism (ads, shared state, sleeps, email collisions).
 ---
 
 # analyze-flaky-test
 
 ## Purpose
-Identify non-determinism: shared state, fixed waits, racey locators, data collisions.
+Stabilize intermittent failures on Automation Exercise.
 
 ## When to use
-A test passes/fails intermittently.
+Test passes/fails across runs without code changes.
 
-## Required inputs
-Test class; flake rate notes.
-
-## Preconditions
-Run the test repeatedly locally; collect traces on failure.
+## Common flake sources on this AUT
+1. Consent/ad overlays stealing clicks → `dismissOverlaysIfPresent()` + URL navigation
+2. Shared/reused email → always `RegistrationDataFactory.uniqueUser()`
+3. Fixed waits → replace with `waitVisible` / ExpectedConditions
+4. Cart modal race → wait for `#cartModal` before View Cart
+5. Shared static WebDriver → must use per-method `UiBaseTest` session
+6. Parallel without unique data → factories + ThreadLocal sessions
 
 ## Workflow
-1. Check for static mutable fields
-2. Search for Thread.sleep/waitForTimeout
-3. Ensure unique emails via factories
-4. Confirm isolated WebDriver per method
-5. Tighten locators to data-qa / role-based
+1. Run the test 3–5 times headed once to observe
+   ```bash
+   for i in 1 2 3 4 5; do mvn -Dtest=ProductDiscoveryUiTest test -DHEADLESS=true || break; done
+   ```
+2. `scripts/fixed-wait-detector/run.sh`
+3. Grep for static mutable fields / hardcoded emails
+4. Tighten locators to `data-qa` / `UiMessages`
+5. Re-run until stable
 
-
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
-
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
-
-## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
-```bash
-for i in $(seq 1 5); do mvn -Dtest=ProductDiscoveryUiTest test || break; done
-scripts/fixed-wait-detector/run.sh
-```
-
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
+## Prohibited
+- “Fixing” flake with longer sleeps
+- Disabling the test without root cause

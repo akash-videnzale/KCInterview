@@ -1,65 +1,53 @@
 ---
 name: requirement-analysis
-description: Turn a feature requirement into a testable plan aligned to Automation Exercise.
+description: Map a requirement to inventory + prioritized gap test cases (no duplicate automation).
 ---
 
 # requirement-analysis
 
 ## Purpose
-Turn a feature requirement into a testable plan aligned to Automation Exercise.
+Turn a requirement into a plan that **starts from current automation**, then lists prioritized gaps only.
 
 ## When to use
-Before creating any new UI/API/E2E test.
+Before any create-* skill; always as step 1–5 of the agentic delivery chain.
 
 ## Required inputs
-Requirement text; optional journey name (signup/discovery/checkout).
+Requirement text or `docs/requirements/AUTOMATION_REQUIREMENTS.md` section; optional journey focus.
 
-## Preconditions
-Read docs/recon/automation-exercise-findings.md; do not invent APIs.
+## Preconditions (read in order)
+1. `docs/requirements/AUTOMATION_REQUIREMENTS.md`
+2. `.ai/knowledge/automation-inventory.md` ← **mandatory**
+3. `docs/recon/automation-exercise-findings.md` if AUT-facing
+4. `.ai/knowledge/architecture.md`
 
 ## Workflow
-1. Identify UI surfaces and API endpoints from recon docs
-2. Map to existing page objects/clients
-3. Choose layer: ui / api / integration
-4. List assertions and data needs
-5. Flag unsupported application behavior
-
-
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
-
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
+1. **Dump inventory** in the reply (UI tests, API tests, test data, pages/clients) from `automation-inventory.md`
+2. Map ask → `REQ-*` IDs
+3. Mark each REQ: COVERED (cite `Class#method`) or GAP
+4. For gaps only, draft cases with **P0 / P1 / P2**
+5. Name reuse targets (existing test class / page / client)
+6. Stop here unless user asked to automate (then hand off to `agentic-delivery-chain` or create-* skills)
 
 ## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
 ```markdown
-## Plan
-- Layer: API
-- Client: ProductApiClient.searchProduct
-- Endpoint: POST /api/searchProduct (verified)
-- Assertions: responseCode 200, products non-empty for term 'top'
-- Negative: missing search_product -> business 400
+## Current automation inventory
+### UI
+- …
+### API
+- …
+### Test data
+- …
+
+## Requirement mapping
+| REQ | Status | Evidence |
+|---|---|---|
+| REQ-… | COVERED / GAP | Class#method or — |
+
+## Prioritized test cases (gaps only)
+### TC-001 (P0) …
 ```
 
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
+## Prohibited
+- Proposing a new Signup/Discovery/Checkout happy-path that already exists
+- Inventing endpoints
+- Skipping the inventory section

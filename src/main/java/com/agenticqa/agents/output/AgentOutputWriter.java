@@ -21,8 +21,12 @@ public final class AgentOutputWriter {
         return target;
     }
 
+    /**
+     * Timestamped run directory under {@code agent-generated/runs/}
+     * (agent drafts stay out of {@code src/}).
+     */
     public static Path defaultRunDir() {
         String stamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
-        return Path.of("agent-output", "run-" + stamp);
+        return Path.of("agent-generated", "runs", "run-" + stamp);
     }
 }

@@ -1,69 +1,81 @@
 ---
 name: create-page-object
-description: Create a Selenium Java page object encapsulating locators and user actions.
+description: Create a Selenium page object with data-qa locators and no-arg constructor.
 ---
 
 # create-page-object
 
 ## Purpose
-Create a Selenium Java page object encapsulating locators and user actions.
+Encapsulate AE UI locators and actions in `com.agenticqa.ui.pages` (or components).
 
 ## When to use
-A UI surface lacks a page object or needs extraction from a test.
+Missing page for a journey (Contact Us, Reviews, Category filter, …) or extracting locators from a test.
 
 ## Required inputs
-Page URL; verified selectors (prefer data-qa).
+URL path; verified selectors (prefer `data-qa` from recon / live DOM).
 
 ## Preconditions
-Inspect live DOM; document difficult locators.
+- Read `.ai/knowledge/selector-strategy.md` and `selenium-patterns.md`
+- Inspect live page; do not invent `data-qa` names
+- Reuse `HeaderComponent` / `FooterComponent` / `ProductCardComponent` when possible
+
+## Output location (mandatory)
+Draft pages go to:
+
+`agent-generated/src/main/java/com/agenticqa/ui/pages/YourPage.java`
+
+**Not** `src/main/java/...` until human promotion.  
+Prefer extending an existing framework page in `src/` only when explicitly asked to change production code.
 
 ## Workflow
-1. Extend BasePage
-2. Expose actions returning next page objects
-3. Keep assertions in tests
-4. Reuse Header/Footer/ProductCard components
-5. Avoid Thread.sleep and waitForTimeout
+1. Extend **`BasePage`** (import from framework)
+2. Write file under **`agent-generated/src/main/java/...`**
+3. Provide **no-arg** ctor + optional `WebDriver` ctor (match existing pages)
+4. Prefer `byDataQa("…")`; put visible English in **`UiMessages`** (draft new constants in agent-generated or propose addition)
+5. Call `dismissOverlaysIfPresent()` around navigate/submit
+6. Prefer `navigate("/path")` when header clicks are blocked by ads
+7. Return next page type from navigation actions
+8. Keep **assertions out of the page** — tests call `UiAssertions`
+9. Use `ExtentLogger.step` / screenshots at milestones
 
-
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
-
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
-
-## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
+## Example (project style — save under agent-generated/)
 ```java
 public class LoginPage extends BasePage {
-  public LoginPage(Page page) { super(page); }
-  public SignupPage startSignup(String name, String email) {
-    byDataQa("signup-name").fill(name);
-    byDataQa("signup-email").fill(email);
-    byDataQa("signup-button").click();
-    waitForDomReady();
-    return new SignupPage(page);
-  }
+    public LoginPage() { super(); }
+
+    public LoginPage open() {
+        ExtentLogger.step("Open login page");
+        navigate("/login");
+        dismissOverlaysIfPresent();
+        waitVisible(byDataQa("login-button"));
+        return this;
+    }
+
+    public SignupPage startSignup(String name, String email) {
+        type(byDataQa("signup-name"), name);
+        type(byDataQa("signup-email"), email);
+        click(byDataQa("signup-button"));
+        waitVisible(byDataQa("create-account"));
+        return new SignupPage();
+    }
+
+    public boolean isInvalidCredentialsVisible() {
+        return isVisible(byTagTextContains("p", UiMessages.INVALID_LOGIN));
+    }
 }
 ```
 
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
+## Existing pages to extend before inventing new ones
+`HomePage`, `LoginPage`, `SignupPage`, `AccountPage`, `ProductsPage`, `ProductDetailsPage`, `CartPage`, `CheckoutPage`, `PaymentPage`
+
+## Prohibited
+- Playwright `Page` / `.fill()` / `waitForTimeout`
+- Locators with hardcoded English not in `UiMessages`
+- `Thread.sleep`
+- Asserts inside page objects (except tiny private sanity if unavoidable — prefer helpers)
+
+## Validation
+```bash
+# After promotion into src/ only — drafts stay in agent-generated/
+mvn -q test-compile
+```

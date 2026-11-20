@@ -1,60 +1,47 @@
 ---
 name: analyze-test-coverage
-description: Identify missing coverage across signup, discovery, checkout, and API contracts.
+description: Compare requirements to automation-inventory; list covered scripts and gaps by priority.
 ---
 
 # analyze-test-coverage
 
 ## Purpose
-Identify missing coverage across signup, discovery, checkout, and API contracts.
+Show **what is already automated** (tests + data + scripts) vs gaps. Depth over breadth.
 
 ## When to use
-Planning regression or after feature changes.
+Planning, Part 2, or step 2–4 of agentic delivery chain.
 
 ## Required inputs
-Changed files; optional JaCoCo report.
+Optional: new requirement text. Always use inventory + requirements docs.
 
 ## Preconditions
-Recon docs list supported journeys/APIs.
+- `docs/requirements/AUTOMATION_REQUIREMENTS.md`
+- `.ai/knowledge/automation-inventory.md`
 
 ## Workflow
-1. Map journeys to existing tests
-2. List unverified API scenarios from api_list
-3. Recommend highest-value gaps
-4. Do not invent unsupported endpoints
-
-
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
-
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
+1. Paste/summarize **full inventory tables** (UI, API, data) from `automation-inventory.md`
+2. Mark assignment P0 journeys: Signup, Discovery, Checkout — must be COVERED
+3. List P1 covered (brands, negatives, user detail, …)
+4. Recommend **at most 2–3** P2 gaps for next work
+5. For each gap: suggested skill + reuse assets
 
 ## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
 ```markdown
-Covered: productsList GET, searchProduct, create/verify/delete user, signup UI, search UI, checkout UI
-Gap: brandsList GET happy path; contact us UI; newsletter subscribe UI
+## Already automated (scripts)
+### UI test scripts
+| Method | Path | Priority |
+### API test scripts
+| Method | Path | Priority |
+### Test data in use
+| Factory/constant | Used by |
+
+## Coverage vs requirements
+| REQ | Status | Script |
+
+## Suggested next automation (max 3)
+1. (P2) … skill: create-ui-test … reuse: …
 ```
 
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
+## Prohibited
+- Claiming coverage without citing `Class#method`
+- Proposing to rebuild existing P0 tests

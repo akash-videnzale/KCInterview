@@ -1,11 +1,17 @@
 # New Test Workflow
-1. Analyze requirement (requirement-analysis skill)
-2. Read create-ui-test or create-api-test skill
-3. Inspect architecture and existing components
-4. Choose layer (ui/api/integration)
-5. Generate test + data
-6. Run AgentValidator
-7. `mvn -DskipTests test-compile`
-8. Execute targeted TestNG test
-9. Review Allure/artifacts on failure
-10. QA Reviewer review-only pass
+
+Prefer the full chain: `.ai/workflows/agentic-delivery-chain.md`
+
+1. Read `docs/requirements/AUTOMATION_REQUIREMENTS.md`
+2. Read `.ai/knowledge/automation-inventory.md` → **print current tests/data/scripts**
+3. Run `requirement-analysis` skill → prioritized **gap** cases only (P0/P1/P2)
+4. If UI gap → `create-ui-test` / … → files under **`agent-generated/src/...`**
+5. If API gap → `create-api-test` / … → **`agent-generated/src/...`**
+6. If data missing → `create-test-data` → **`agent-generated/src/...`**
+7. Validate: AgentValidator on `agent-generated/src/test/java`
+8. **Do not** write into `src/` unless the human asks to promote
+9. After promotion: `mvn test -Dtest=...` (+ HEADLESS as needed)
+10. On failure → `analyze-test-failure`; QA Reviewer ACCEPT/REJECT
+
+**Do not** recreate Signup / Discovery / Checkout happy paths already in inventory.  
+**Do not** mix agent drafts into the framework tree.

@@ -1,67 +1,50 @@
 ---
 name: framework-onboarding
-description: Onboard an AI agent or engineer to the Java 21 Selenium TestNG REST Assured framework.
+description: Onboard before writing any test, page, or client for Automation Exercise.
 ---
 
 # framework-onboarding
 
 ## Purpose
-Onboard an AI agent or engineer to the Java 21 Selenium TestNG REST Assured framework.
+Bring an agent up to speed on this **agentic-first** framework before coding.
+
+## Assignment context (Part 1)
+- AUT: https://automationexercise.com/
+- Stack chosen (see `DECISIONS.md`): **Java 21 + Selenium + TestNG + REST Assured** (not Playwright+TS)
+- Must cover **depth**: Signup, Product Discovery, Checkout + API
+- Agentic design = skills + knowledge + deterministic validators (not docs alone)
 
 ## When to use
-Starting work in a new session, before generating tests or page objects.
-
-## Required inputs
-None required; optional focus area (ui/api/validation).
-
-## Preconditions
-Repository cloned; AGENTS.md readable.
+New chat/session, or before any create-* skill.
 
 ## Workflow
-1. Read AGENTS.md and docs/architecture/overview.md
-2. Inspect package layout under src/main/java/com/agenticqa
-3. Review UiBaseTest and ApiBaseTest lifecycles
-4. Review one UI and one API test as patterns
-5. Summarize constraints before coding
+1. Read `README.md` and `DECISIONS.md` (why Selenium)
+2. Read **`docs/requirements/AUTOMATION_REQUIREMENTS.md`**
+3. Read **`.ai/knowledge/automation-inventory.md`** and **list current tests/data in your reply**
+4. Read `.ai/knowledge/architecture.md` (+ topic knowledge as needed)
+5. Skim recon: `docs/recon/automation-exercise-findings.md`
+6. Open golden tests from the inventory (do not reinvent them)
+7. For new work, use **agentic delivery chain**:  
+   `.ai/skills/agentic-delivery-chain/SKILL.md` / `.ai/agents/agentic-delivery-orchestrator.md`
+8. State constraints (stack, layers, no LLM in asserts) before coding
 
+## Always apply
+- UI → `UiBaseTest` + `new LoginPage()` (no-arg; driver from `UiSessionHolder`)
+- API → `ApiBaseTest` + `*ApiClient` + POJO getters + `ApiResponseAssertions`
+- Data → factories (`RegistrationDataFactory.uniqueUser()`)
+- Assert helpers → `UiAssertions` / `ProductAssertions` / `ApiResponseAssertions`
+- Text → `UiMessages` (UI) / `ApiMessages` (API) / `KnownProducts` (catalogue)
+- Config default: **headed + single**; override `-DHEADLESS` / `-DPARALLEL`
 
-## Architecture constraints
-- Layers: core → services (pages/api/factories) → tests → AI ecosystem → governance
-- UI tests extend UiBaseTest; API tests extend ApiBaseTest
-- Assertions: TestNG Assert and SoftAssert only
-- Config via YAML + env vars (ConfigLoader)
+## Prohibited
+- Playwright, JUnit, AssertJ, Hamcrest
+- `Thread.sleep`, `new ChromeDriver()`, raw `RestAssured.given()` in tests
+- Hardcoded emails/passwords/full AUT URLs in tests
+- Inventing endpoints/selectors not in recon or existing pages
+- LLM calls inside `@Test` assertions
 
-
-
-## Prohibited practices
-- Do not use JUnit, AssertJ, or Hamcrest
-- Do not call Thread.sleep or TimeUnit.sleep; use WebDriverWait
-- Do not hardcode credentials or environment URLs in tests
-- Do not create WebDriver/ChromeDriver inside tests
-- Do not call RestAssured.given() directly from tests
-- Do not invent Automation Exercise endpoints or selectors
-- Do not make tests depend on LLM APIs at runtime
-
-
-## Output format
-- Summary of changes
-- Files created/modified
-- TestNG groups used
-- Validation commands run and results
-
-## Examples
-```java
-// UI tests extend UiBaseTest and use page objects
-public class SignupUiTest extends UiBaseTest {
-  @Test(groups = {"ui", "smoke"})
-  public void shouldRegisterUniqueUserAndDeleteAccount() {
-    HomePage home = new HomePage(page()).open();
-    Assert.assertTrue(home.isLoaded(), "Home page should load");
-  }
-}
+## Validation
+```bash
+mvn -q test-compile
+mvn test -Dgroups=smoke -DHEADLESS=true
 ```
-
-## Validation requirements
-- `mvn -DskipTests test-compile` succeeds for Java changes
-- AgentValidator reports ACCEPTED (0 ERROR) for production tests
-- New tests use meaningful assertion messages
