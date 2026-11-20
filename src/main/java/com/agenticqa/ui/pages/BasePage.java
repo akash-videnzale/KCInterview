@@ -1,6 +1,5 @@
 package com.agenticqa.ui.pages;
 
-import com.agenticqa.ui.components.FooterComponent;
 import com.agenticqa.ui.components.HeaderComponent;
 import com.agenticqa.core.configuration.ConfigLoader;
 import com.agenticqa.core.context.UiSessionHolder;
@@ -29,7 +28,6 @@ public abstract class BasePage {
 
     protected final WebDriver driver;
     private final HeaderComponent header;
-    private final FooterComponent footer;
 
     /** Resolves the active UI session driver for this test thread. */
     protected BasePage() {
@@ -39,17 +37,11 @@ public abstract class BasePage {
     protected BasePage(WebDriver driver) {
         this.driver = driver;
         this.header = new HeaderComponent(driver);
-        this.footer = new FooterComponent(driver);
     }
 
     /** Shared site header (logo, nav, cart badge). */
     public HeaderComponent header() {
         return header;
-    }
-
-    /** Shared site footer links. */
-    public FooterComponent footer() {
-        return footer;
     }
 
     /** Explicit wait bound to {@code timeouts.defaultTimeoutMs} from framework config. */

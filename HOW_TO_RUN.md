@@ -86,6 +86,9 @@ open target/extent-report/index.html
 
 **What you’ll see:** suite/tests, steps, API request/response attaches, screenshots on UI failure, pass/fail status.
 
+The report **opens automatically** in your default browser when the suite finishes.  
+Disable: `mvn test -DOPEN_REPORT=false` (or env `OPEN_REPORT=false`). AgentCli `full` / `execute` also auto-opens `11-execution-report.html`.
+
 ### Other artifacts
 
 | Artifact | Path |

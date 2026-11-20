@@ -189,6 +189,7 @@
                         <BROWSER>${BROWSER}</BROWSER>
                         <BASE_URL>${BASE_URL}</BASE_URL>
                         <API_BASE_URL>${API_BASE_URL}</API_BASE_URL>
+                        <OPEN_REPORT>${OPEN_REPORT}</OPEN_REPORT>
                     </systemPropertyVariables>
                     <properties>
                         <property>

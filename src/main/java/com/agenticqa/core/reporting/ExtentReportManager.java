@@ -51,7 +51,7 @@ public final class ExtentReportManager {
             ExtentReports reports = new ExtentReports();
             reports.attachReporter(spark);
             reports.setSystemInfo("Application", "https://automationexercise.com");
-            reports.setSystemInfo("Framework", "Java 21 + Playwright + TestNG + REST Assured");
+            reports.setSystemInfo("Framework", "Java 21 + Selenium + TestNG + REST Assured");
             reports.setSystemInfo("OS", System.getProperty("os.name"));
             reports.setSystemInfo("Java", System.getProperty("java.version"));
 

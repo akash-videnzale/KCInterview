@@ -11,6 +11,8 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.nio.file.Path;
+
 /**
  * TestNG listener that drives Extent Spark HTML reporting with steps + screenshots.
  */
@@ -27,7 +29,9 @@ public class ExtentTestListener implements ITestListener {
     @Override
     public void onFinish(ITestContext context) {
         ExtentReportManager.flush();
-        LOG.info("Extent report written → {}", ExtentReportManager.latestReportPath().toAbsolutePath());
+        Path report = ExtentReportManager.latestReportPath().toAbsolutePath();
+        LOG.info("Extent report written → {}", report);
+        ReportOpener.openExtentOnce();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.agenticqa.agents.report.ExecutionHtmlReportGenerator;
 import com.agenticqa.agents.report.ExecutionResultParser;
 import com.agenticqa.agents.report.ExecutionTestResult;
 import com.agenticqa.agents.report.SurefireResultReader;
+import com.agenticqa.core.reporting.ReportOpener;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -68,5 +69,6 @@ public final class ExecutionHtmlReportAgent implements Agent {
         context.putMeta("executionHtmlReport", report.toAbsolutePath().toString());
         context.putMeta("executionHtmlPassCount", counts.passed());
         context.putMeta("executionHtmlFailCount", counts.failed());
+        ReportOpener.open(report);
     }
 }

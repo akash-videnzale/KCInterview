@@ -17,7 +17,7 @@ URL path; verified selectors (prefer `data-qa` from recon / live DOM).
 ## Preconditions
 - Read `.ai/knowledge/selector-strategy.md` and `selenium-patterns.md`
 - Inspect live page; do not invent `data-qa` names
-- Reuse `HeaderComponent` / `FooterComponent` / `ProductCardComponent` when possible
+- Reuse `HeaderComponent` / `ProductCardComponent` when possible
 
 ## Output location (mandatory)
 Draft pages go to:

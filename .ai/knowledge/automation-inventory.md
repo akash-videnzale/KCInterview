@@ -67,7 +67,7 @@ Path: `src/test/java/com/agenticqa/tests/unit/validation/AgentValidatorTest.java
 ## 5. Page objects & API clients (already built)
 
 **Pages:** `HomePage`, `LoginPage`, `SignupPage`, `AccountPage`, `ProductsPage`, `ProductDetailsPage`, `CartPage`, `CheckoutPage`, `PaymentPage`  
-**Components:** `HeaderComponent`, `FooterComponent`, `ProductCardComponent`, `CartItemComponent`  
+**Components:** `HeaderComponent`, `ProductCardComponent`  
 **Clients:** `ProductApiClient`, `BrandApiClient`, `UserApiClient`, `AuthenticationApiClient`  
 **Assert helpers:** `UiAssertions`, `ProductAssertions`, `ApiResponseAssertions`
 

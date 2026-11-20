@@ -1,14 +1,9 @@
 package com.agenticqa.ui.pages;
 
 import com.agenticqa.core.reporting.ExtentLogger;
-import com.agenticqa.ui.components.CartItemComponent;
 import com.agenticqa.ui.messages.UiMessages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Page object for the shopping cart.
@@ -33,15 +28,6 @@ public class CartPage extends BasePage {
 
     public boolean isLoaded() {
         return isVisible(By.id("cart_info")) || isVisible(By.cssSelector(".cart_info"));
-    }
-
-    public List<CartItemComponent> items() {
-        List<WebElement> rows = findAll(By.cssSelector("#cart_info tbody tr, .cart_info tbody tr"));
-        List<CartItemComponent> items = new ArrayList<>();
-        for (WebElement row : rows) {
-            items.add(new CartItemComponent(row));
-        }
-        return items;
     }
 
     public int itemCount() {
