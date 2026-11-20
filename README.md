@@ -1,6 +1,8 @@
 # Agentic QA Automation Framework
 
-**Agentic-first** UI + API test framework for [Automation Exercise](https://automationexercise.com/).
+Enterprise-grade **agentic-first** Quality Engineering platform for
+[Automation Exercise](https://automationexercise.com/) — built so AI coding agents can
+contribute safely, while humans retain deterministic control over quality.
 
 Stack: **Java 21 · Selenium 4 · TestNG · REST Assured · Extent Reports**  
 Author: **Akash Aggarwal**  
@@ -8,6 +10,36 @@ Repo: [akash-videnzale/KCInterview](https://github.com/akash-videnzale/KCIntervi
 
 Companion runbooks: [`HOW_TO_RUN.md`](HOW_TO_RUN.md) · [`docs/HOW_TO_RUN.html`](docs/HOW_TO_RUN.html)  
 Architecture decisions: [`DECISIONS.md`](DECISIONS.md) · AI usage log: [`AI_USAGE.md`](AI_USAGE.md)
+
+---
+
+## Two independently designed capabilities
+
+This repository delivers **two products that compose — and can also stand alone**.
+
+| Capability | What it is | Independence |
+|---|---|---|
+| **1. Automation Framework** | Production-style UI + API TestNG suite: pages, clients, factories, assertions, Extent reporting, parallel/headed controls | **Fully independent.** Clone → `mvn test` → browser + Extent report. **No LLM keys. No AgentCli. No AI required.** |
+| **2. CLI Agent Platform** | Optional multi-provider runtime (`AgentCli`): requirement analysis → case generation → review → draft automation → execute → HTML summary | **Fully independent as an orchestration layer.** Runs with its own entrypoint and `.env` keys. Does **not** inject LLMs into `@Test` assertions. Can analyze/generate without changing the shipped suite. |
+
+**Design principle:** *AI accelerates authoring; the framework remains the source of truth for execution.*  
+Agents propose. Validators gate. Maven decides pass/fail.
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  CLI Agent Platform (optional)                                  │
+│  AgentCli · multi-LLM · drafts in agent-generated/ · run HTML   │
+│                         ▲ can invoke                            │
+│                         │ mvn test                              │
+├─────────────────────────┴───────────────────────────────────────┤
+│  Automation Framework (always runnable)                         │
+│  Selenium UI · REST Assured API · TestNG · Extent · Governance  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+- Run **framework only:** `mvn test`  
+- Run **CLI agents only (analysis):** `AgentCli analyze …`  
+- Run **both composed:** `AgentCli full …` (agents + suite execution)
 
 ---
 
@@ -87,7 +119,11 @@ Dependencies point **downward only**. Tests stay thin; agents never decide pass/
 | **Governance** | Deterministic JavaParser rules | LLM calls |
 | **Agents** | Optional offline LLM pipeline | Called from `@Test` assertions |
 
-**Runtime note:** `mvn test` uses UI/API/data/core only. `.ai/*` guides IDE agents. `AgentCli` is optional paid LLM orchestration and is **not** required to run tests.
+**Runtime contract**
+
+- The **framework** executes without agents, without API keys, and without network calls to LLM providers.
+- The **CLI agents** orchestrate independently; they write drafts under `agent-generated/` and may *invoke* the framework for execution — they never replace TestNG as the quality oracle.
+- IDE skills under `.ai/` guide coding agents (Cursor / Claude / Copilot); that guidance layer is also optional for a plain `mvn test` run.
 
 More detail: [`docs/architecture/overview.md`](docs/architecture/overview.md) · [`.ai/knowledge/architecture.md`](.ai/knowledge/architecture.md)
 
@@ -106,9 +142,12 @@ Manual open: `scripts/extent-report/open.sh` or `open target/extent-report/index
 
 ---
 
-## How to run AgentCli (runtime LLM agents)
+## How to run the CLI Agent Platform (`AgentCli`)
 
-Optional multi-provider pipeline (keys in local `.env` only — never commit secrets).
+An **additional**, interview-ready agent runtime — multi-provider, cost-aware, and deliberately **decoupled** from TestNG assertions.  
+Use it when you want AI-assisted analysis and drafting; skip it entirely when you only need the automation suite.
+
+Keys live in local `.env` only — never commit secrets.
 
 ```bash
 cp .env.example .env   # set OPENAI_API_KEY / ANTHROPIC_API_KEY / DEEPSEEK_API_KEY as needed
