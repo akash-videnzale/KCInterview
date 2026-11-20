@@ -37,7 +37,7 @@ Agents propose. Validators gate. Maven decides pass/fail.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-- Run **framework only:** `mvn test`  
+- Run **the entire framework:** `mvn test` (all UI + API + integration + unit tests)  
 - Run **CLI agents only (analysis):** `AgentCli analyze …`  
 - Run **both composed:** `AgentCli full …` (agents + suite execution)
 
@@ -55,9 +55,13 @@ cp .env.example .env
 mvn -DskipTests dependency:resolve
 mvn -DskipTests compile test-compile
 
-# Run the full suite (headed Chrome by default)
+# Run EVERYTHING — full suite (UI + API + integration + unit)
+# Headed Chrome by default; Extent report auto-opens when finished
 mvn test
 ```
+
+**One command to run the whole framework:** `mvn test`  
+That executes all TestNG tests (signup, discovery, checkout, login, product/brand APIs, integration, validators). No extra flags required.
 
 When the suite finishes, **Extent HTML opens automatically** in your browser:
 
@@ -65,10 +69,10 @@ When the suite finishes, **Extent HTML opens automatically** in your browser:
 
 Disable auto-open: `mvn test -DOPEN_REPORT=false`
 
-### Useful run commands
+### Optional filters (only if you want a subset)
 
 ```bash
-# Smoke / groups
+# By group
 mvn test -Dgroups=smoke
 mvn test -Dgroups=ui
 mvn test -Dgroups=api
