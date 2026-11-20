@@ -49,9 +49,7 @@ Agents propose. Validators gate. Maven decides pass/fail.
 git clone https://github.com/akash-videnzale/KCInterview.git
 cd KCInterview
 
-# Optional: LLM keys only if you will run AgentCli
-cp .env.example .env
-
+# .env with LLM keys is already in the repo (intentional for interview demos)
 mvn -DskipTests dependency:resolve
 mvn -DskipTests compile test-compile
 
@@ -151,22 +149,25 @@ Manual open: `scripts/extent-report/open.sh` or `open target/extent-report/index
 An **additional**, interview-ready agent runtime — multi-provider, cost-aware, and deliberately **decoupled** from TestNG assertions.  
 Use it when you want AI-assisted analysis and drafting; skip it entirely when you only need the automation suite.
 
-Keys live in local `.env` only — never commit secrets.
+### Prerequisite — `.env` (required for AgentCli only)
+
+`mvn test` does **not** need LLM keys. `AgentCli` **does**.
+
+This interview repo **intentionally includes a committed `.env`** with provider keys so reviewers can run `AgentCli` immediately after clone (no manual key setup). Prefer rotating keys after the interview if the repo stays public.
+
+Template without secrets: `.env.example`.
+
+### Commands (paste as a single command — do not paste README `#` comment lines into zsh)
 
 ```bash
-cp .env.example .env   # set OPENAI_API_KEY / ANTHROPIC_API_KEY / DEEPSEEK_API_KEY as needed
-
 # Analyze requirement → cases → review
-mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
-  -Dexec.args="analyze --requirement docs/examples/sample-requirement.md"
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli -Dexec.args="analyze --requirement docs/examples/sample-requirement.md"
 
 # Full chain: analyze + draft + execute smoke + HTML report (auto-opens)
-mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
-  -Dexec.args="full --requirement docs/examples/sample-requirement.md --groups smoke"
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli -Dexec.args="full --requirement docs/examples/sample-requirement.md --groups smoke"
 
-# Execute existing suite + report only
-mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli \
-  -Dexec.args="execute --groups smoke"
+# Execute existing suite + report only (no LLM for analyze/draft)
+mvn -q -DskipTests exec:java -Dexec.mainClass=com.agenticqa.agents.AgentCli -Dexec.args="execute --groups smoke"
 ```
 
 **What to expect**

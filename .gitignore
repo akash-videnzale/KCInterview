@@ -6,10 +6,10 @@
 *.war
 *.ear
 
-# Secrets / local env
-.env
-.env.*
-!.env.example
+# Local env overrides (interview demo intentionally tracks .env with provider keys)
+# Keep .env.example as the template; .env is committed for AgentCli out-of-the-box demos.
+.env.local
+.env.*.local
 
 # IDE
 .idea/
