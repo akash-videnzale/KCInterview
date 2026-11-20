@@ -1,11 +1,20 @@
-# Architecture Overview
+# Architecture overview
 
-See README architecture diagram and ADR set in `DECISIONS.md`.
+Canonical architecture for agents and engineers:
 
-## Core types
+- [`../../README.md`](../../README.md) — layers, how it works, how to run
+- [`../../.ai/knowledge/architecture.md`](../../.ai/knowledge/architecture.md) — agent quick reference
+- [`../../.ai/knowledge/automation-inventory.md`](../../.ai/knowledge/automation-inventory.md) — existing tests
+- [`../../DECISIONS.md`](../../DECISIONS.md) — ADRs (Selenium vs Playwright brief, etc.)
 
-- `BrowserManager` — suite Playwright/Browser
-- `SessionFactory` / `TestSession` / `UiSessionHolder` — per-test isolation
-- `ConfigLoader` / `FrameworkConfig` — YAML + env
-- `UiBaseTest` / `ApiBaseTest` — TestNG fixtures
-- `AgentValidator` / `ArchitectureValidator` — governance
+## Core types (current stack)
+
+| Type | Role |
+|---|---|
+| `BrowserManager` / `SessionFactory` | Selenium WebDriver lifecycle |
+| `UiSessionHolder` / `TestSession` | Per-test ThreadLocal driver |
+| `ConfigLoader` / `FrameworkConfig` | YAML + `-D` / env overrides |
+| `UiBaseTest` / `ApiBaseTest` | TestNG fixtures |
+| `AgentValidator` / `ArchitectureValidator` | Deterministic governance |
+
+Agent drafts belong in `agent-generated/`, not `src/`.

@@ -7,7 +7,7 @@ Portable deterministic validation is implemented as shell scripts under `scripts
 | Lifecycle | Portable script | Notes |
 |---|---|---|
 | Before task completion | `scripts/agent-validator/run.sh` | Primary gate |
-| Before/after test execution | Maven surefire + Allure | Use CI job steps |
+| Before/after test execution | Maven Surefire + Extent | `scripts/extent-report/open.sh` |
 | Secret scan | `scripts/secret-detector/run.sh` | Heuristic |
 | Fixed wait scan | `scripts/fixed-wait-detector/run.sh` | Heuristic |
 

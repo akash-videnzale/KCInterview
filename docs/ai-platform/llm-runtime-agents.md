@@ -65,7 +65,7 @@ Optional flags:
 - `--diff <patch-file>` — change analysis input
 - `--groups <testng-groups>` — execution groups (default `smoke`)
 
-Outputs: `agent-output/run-<timestamp>/` (gitignored)
+Outputs: `agent-generated/runs/run-<timestamp>/` (gitignored)
 
 Example artifacts:
 
@@ -91,12 +91,12 @@ AWS_REGION=ap-southeast-2
 
 ## Safety / governance
 
-- Draft Java under `agent-output/` is **not** production until reviewed.
-- Before merging generated tests into `src/test`, run:
+- Draft Java under `agent-generated/` is **not** production until reviewed and promoted.
+- Before promoting generated tests into `src/test`, run:
 
 ```bash
-mvn -DskipTests exec:java -Dexec.mainClass=com.agenticqa.validation.AgentValidator \
-  -Dexec.args="src/test/java"
+mvn -DskipTests exec:java -Dexec.mainClass=com.agenticqa.governance.AgentValidator \
+  -Dexec.args="agent-generated/src/test/java"
 ```
 
 - Do not put API keys in source, commits, or Allure attachments.

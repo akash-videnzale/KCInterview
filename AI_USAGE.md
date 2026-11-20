@@ -63,5 +63,5 @@ This log records **actual** AI assistance used while building this repository. E
 
 - AI cannot guarantee selector stability if the AUT DOM changes.
 - FailureClassifier / report analysis are heuristic, not authoritative RCA.
-- LLM drafts under `agent-output/` require human review + AgentValidator before merge.
+- LLM drafts under `agent-generated/` require human review + AgentValidator before promotion into `src/`.
 - Live evaluation scenarios in `evaluations/` need real runs; do not fabricate scores.

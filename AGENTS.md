@@ -40,7 +40,7 @@ Do **not** use JUnit, AssertJ, Hamcrest, or Selenium.
 - `.ai/skills` — coding-agent skills (`SKILL.md`)
 - `.ai/agents` — specialized agent roles (+ `runtime/` for LLM agents)
 - `scripts/*` — deterministic governance scripts
-- `agent-output/` — LLM pipeline artifacts (gitignored)
+- `agent-generated/` — agent drafts + LLM run outputs (not mixed into `src/`)
 
 ## Operating rules
 
@@ -52,7 +52,7 @@ Do **not** use JUnit, AssertJ, Hamcrest, or Selenium.
 6. UI tests extend `UiBaseTest`; API tests extend `ApiBaseTest` (Selenium — not Playwright).
 7. Use factories for data; cleanup accounts when created.
 8. Before finishing, run AgentValidator on `agent-generated/src/test/java` and fix ERROR violations.
-9. Treat drafts under `agent-generated/` (and legacy `agent-output/`) as untrusted until validated, reviewed, and promoted.
+9. Treat drafts under `agent-generated/` as untrusted until validated, reviewed, and promoted into `src/`.
 
 ## Commands map (coding agents)
 

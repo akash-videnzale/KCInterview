@@ -7,5 +7,6 @@ alwaysApply: false
 # Selenium
 - Use page objects + components; prefer verified `data-qa` / stable CSS/XPath.
 - Wait with `WebDriverWait` + `ExpectedConditions` (no `Thread.sleep` / `TimeUnit.sleep` in tests).
-- Obtain `WebDriver` only via `UiBaseTest.page()` / `SessionFactory` — never `new ChromeDriver()` in tests.
+- Obtain `WebDriver` via `UiSessionHolder` / no-arg page constructors — never `new ChromeDriver()` in tests.
 - Dismiss AE overlays via `BasePage.dismissOverlaysIfPresent()` when needed.
+- Put agent draft pages under `agent-generated/src/main/java/...`, not `src/main/java/...`.

@@ -17,7 +17,7 @@ Make the repository ready for optional Model Context Protocol tooling without co
 
 - MCP servers must be explicitly enabled by the engineer.
 - Never send secrets from `.env` to third-party MCP servers.
-- Redact credentials in Allure attachments (`SecretRedactor`).
+- Redact credentials in Extent / API attachments (`SecretRedactor`).
 - Validators remain the merge gate even when MCP is enabled.
 
 ## Setup (illustrative)

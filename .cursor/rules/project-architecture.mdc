@@ -8,6 +8,6 @@ alwaysApply: true
 
 - Respect five layers: core, services (pages/api/factories), tests, AI ecosystem, governance.
 - UI tests extend `UiBaseTest`; API tests extend `ApiBaseTest`.
-- Do not initialize Playwright in API tests.
-- Do not create Browser/BrowserContext/Page inside tests.
+- Do not create `WebDriver` / `ChromeDriver` inside tests — use `UiSessionHolder` via page objects.
+- Agent-generated drafts go under `agent-generated/` only — never mix into `src/` until promotion.
 - New code belongs in existing packages; do not invent parallel frameworks.
